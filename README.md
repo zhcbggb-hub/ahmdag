@@ -27,7 +27,15 @@ Needs `ELEVENLABS_API_KEY` set in the cloud environment's settings (a new sessio
 2. `node scripts/generate-voiceover.mjs --voice <voice_id>` writes `public/voiceover/*.mp3` and `src/jarablus/voiceover.generated.json`, and warns if a line runs into the next one.
 3. Render again; the video plays every clip listed in `voiceover.generated.json` at its start frame.
 
-The narration and the frame each line starts on are in `src/jarablus/voiceover.json`.
+The narration and the frame each line starts on are in `src/jarablus/voiceover.json`. "جرابلس" is written with
+diacritics (جَرَابْلُس) so it is pronounced the local way, "Jarablus".
+
+ElevenLabs' free plan cannot use Voice Library voices, voice design or music through the API; those need a paid plan.
+
+### Music
+
+"What About Action?" from Mixkit (Mixkit License: free for commercial projects, not to be redistributed on its own).
+It is not committed; run `sh scripts/fetch-music.sh` before rendering. The music fades in and out and dips under the voiceover.
 
 ## Commands
 
