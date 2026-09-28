@@ -19,6 +19,12 @@ A 29-second vertical (1080×1920) promo for the Souq Jarablus app, in Syrian Ara
 - Each scene is in `src/jarablus/scenes/` and also shows up on its own in the Studio under "JarablusPromo-Scenes".
 - Fonts (Alexandria, Readex Pro) and the app screenshots are bundled in `public/`, so rendering needs no network.
 
+### Seller and buyer story
+
+`npx remotion render JarablusStory out/jarablus-story.mp4` renders a 30-second story cut to "What About Action?" (120 BPM,
+15 frames a beat): a seller posts an ad in the app's four steps, it flies onto a drawn map of Jarablus and its countryside
+whose villages light up on the music's drop, a buyer finds it and messages on WhatsApp, and it ends on the download button.
+
 ### Logo and app short
 
 `npx remotion render JarablusShort out/jarablus-short.mp4` renders a 16-second short cut to the music: the logo builds

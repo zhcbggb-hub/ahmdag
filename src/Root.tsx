@@ -15,6 +15,8 @@ import { Finale, FINALE_DURATION } from "./jarablus/short/Finale";
 import { JarablusShort } from "./jarablus/short/JarablusShort";
 import { LogoBuild, LOGO_BUILD_DURATION } from "./jarablus/short/LogoBuild";
 import { SHORT_DURATION } from "./jarablus/short/timing";
+import { JarablusStory } from "./jarablus/story/JarablusStory";
+import { STORY_DURATION } from "./jarablus/story/timing";
 import { FPS, HEIGHT, WIDTH } from "./jarablus/theme";
 
 const vertical = { fps: FPS, width: WIDTH, height: HEIGHT };
@@ -33,6 +35,9 @@ export const RemotionRoot: React.FC = () => {
         <Composition id="Features" component={FeaturesScene} durationInFrames={FEATURES_DURATION} {...vertical} />
         <Composition id="Outro" component={OutroScene} durationInFrames={OUTRO_DURATION} {...vertical} />
       </Folder>
+
+      {/* 30-second seller-and-buyer story, cut to the music: npx remotion render JarablusStory */}
+      <Composition id="JarablusStory" component={JarablusStory} durationInFrames={STORY_DURATION} {...vertical} />
 
       {/* 16-second logo and app short, cut to the music: npx remotion render JarablusShort */}
       <Composition id="JarablusShort" component={JarablusShort} durationInFrames={SHORT_DURATION} {...vertical} />

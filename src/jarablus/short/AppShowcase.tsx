@@ -78,7 +78,7 @@ const AdCard: React.FC = () => (
 );
 
 // The app's pin, used as the notification icon.
-const PinIcon: React.FC<{ size: number }> = ({ size }) => {
+export const PinIcon: React.FC<{ size: number }> = ({ size }) => {
   const k = (size * 0.8) / 220;
   return (
     <div style={{ position: "relative", width: size, height: size, borderRadius: size * 0.26, background: C.paper, overflow: "hidden", flexShrink: 0, boxShadow: `inset 0 0 0 2px ${C.mint}55` }}>
@@ -87,7 +87,7 @@ const PinIcon: React.FC<{ size: number }> = ({ size }) => {
   );
 };
 
-const Notification: React.FC = () => (
+export const Notification: React.FC = () => (
   <div style={{ direction: "rtl", display: "flex", alignItems: "center", gap: 18, width: 470, background: "rgba(255,255,255,0.97)", borderRadius: 30, padding: "18px 22px", boxShadow: "0 30px 60px rgba(5, 68, 59, 0.25)" }}>
     <PinIcon size={76} />
     <div>
