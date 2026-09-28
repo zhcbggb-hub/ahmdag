@@ -20,11 +20,11 @@ export const StoryFinale: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const logo = spring({ frame, fps, config: { damping: 12, stiffness: 150 } });
-  const icon = spring({ frame: frame - at(56), fps, config: { damping: 12, stiffness: 180 } });
-  const cta = spring({ frame: frame - at(57), fps, config: { damping: 10, stiffness: 200 } });
-  const url = spring({ frame: frame - at(58), fps, config: { damping: 18 } });
-  const shine = interpolate(frame, [at(59), at(59) + 14], [-40, 140], CLAMP);
-  const pulse = frame < at(57) ? 0 : (Math.sin((frame - at(57)) / 5) + 1) / 2;
+  const icon = spring({ frame: frame - at(49), fps, config: { damping: 12, stiffness: 180 } });
+  const cta = spring({ frame: frame - at(49.5), fps, config: { damping: 10, stiffness: 200 } });
+  const url = spring({ frame: frame - at(50.5), fps, config: { damping: 18 } });
+  const shine = interpolate(frame, [at(51), at(51) + 14], [-40, 140], CLAMP);
+  const pulse = frame < at(49.5) ? 0 : (Math.sin((frame - at(49.5)) / 5) + 1) / 2;
   return (
     <AbsoluteFill style={{ background: `radial-gradient(circle at 50% 35%, white 0%, ${C.paper} 50%, #E7EDE6 100%)`, overflow: "hidden" }}>
       <Rings x={PIN_X} y={PIN_Y} color={C.brand} start={2} every={8} count={4} total={3} maxRadius={900} strokeWidth={4} />
@@ -44,7 +44,7 @@ export const StoryFinale: React.FC = () => {
         }}
       />
       <Burst x={PIN_X} y={PIN_Y} start={4} seed="story-logo" colors={[C.mint, C.brand, C.cream]} count={40} />
-      <div style={{ position: "absolute", top: 820, left: 0, right: 0, display: "flex", justifyContent: "center", opacity: frame < at(56) ? 0 : icon, scale: interpolate(icon, [0, 1], [0.5, 1]) }}>
+      <div style={{ position: "absolute", top: 820, left: 0, right: 0, display: "flex", justifyContent: "center", opacity: frame < at(49) ? 0 : icon, scale: interpolate(icon, [0, 1], [0.5, 1]) }}>
         <AppIcon size={150} />
       </div>
       <div style={{ position: "absolute", top: 1090, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
@@ -64,7 +64,7 @@ export const StoryFinale: React.FC = () => {
             padding: "24px 60px 34px",
             overflow: "hidden",
             boxShadow: `0 0 ${40 + pulse * 30}px rgba(0, 125, 107, ${0.35 + pulse * 0.25})`,
-            opacity: frame < at(57) ? 0 : Math.min(1, cta * 2),
+            opacity: frame < at(49.5) ? 0 : Math.min(1, cta * 2),
             scale: interpolate(cta, [0, 1], [0.4, 1]),
           }}
         >
@@ -73,10 +73,10 @@ export const StoryFinale: React.FC = () => {
           <AbsoluteFill style={{ background: `linear-gradient(110deg, transparent ${shine - 12}%, rgba(255,255,255,0.6) ${shine}%, transparent ${shine + 12}%)` }} />
         </div>
       </div>
-      <div style={{ position: "absolute", top: 1260, left: 0, right: 0, textAlign: "center", fontFamily: TEXT, fontWeight: 600, fontSize: 54, color: C.deep, opacity: frame < at(58) ? 0 : url, translate: `0 ${(1 - url) * 30}px` }}>
+      <div style={{ position: "absolute", top: 1260, left: 0, right: 0, textAlign: "center", fontFamily: TEXT, fontWeight: 600, fontSize: 54, color: C.deep, opacity: frame < at(50.5) ? 0 : url, translate: `0 ${(1 - url) * 30}px` }}>
         jarablus.store/app
       </div>
-      <Burst x={540} y={1170} start={at(57)} seed="story-cta" colors={[C.mint, C.brand]} count={36} />
+      <Burst x={540} y={1170} start={at(49.5)} seed="story-cta" colors={[C.mint, C.brand]} count={36} />
       <Solid
         width={1080}
         height={1920}

@@ -13,7 +13,7 @@ const DROP = MAP_DROP - MAP_START;
 // in the north, al-Amarneh just south of it and al-Ghandoura further south-west.
 const RIVER = "M 905 430 C 860 560, 900 650, 830 760 S 760 960, 815 1080 S 900 1260, 800 1400 S 700 1560, 760 1700";
 const PLACES = [
-  { name: "مدينة جرابلس", x: 690, y: 700, at: at(26), big: true },
+  { name: "مدينة جرابلس", x: 690, y: 700, at: at(24), big: true },
   { name: "العمارنة", x: 610, y: 960, at: DROP, big: true },
   { name: "الغندورة", x: 330, y: 1210, at: DROP + 7, big: true },
 ];
@@ -41,12 +41,12 @@ const MapPin: React.FC<{ x: number; y: number; at: number; size: number }> = ({ 
 export const MapScene: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const draw = interpolate(frame, [at(21), at(25)], [1, 0], { ...CLAMP, easing: Easing.inOut(Easing.cubic) });
+  const draw = interpolate(frame, [at(20.5), at(23.5)], [1, 0], { ...CLAMP, easing: Easing.inOut(Easing.cubic) });
   // The ad card flies from the centre into Jarablus, then melts into its pin.
-  const fly = interpolate(frame, [at(24), at(26)], [0, 1], { ...CLAMP, easing: Easing.inOut(Easing.cubic) });
+  const fly = interpolate(frame, [at(22.5), at(24)], [0, 1], { ...CLAMP, easing: Easing.inOut(Easing.cubic) });
   const card = spring({ frame, fps, config: { damping: 14, stiffness: 150 } });
   // During the music's break the camera leans in; on the drop it pulls back to show everything.
-  const lean = interpolate(frame, [at(27), DROP], [1, 1.12], CLAMP);
+  const lean = interpolate(frame, [at(25), DROP], [1, 1.12], CLAMP);
   const pull = spring({ frame: frame - DROP, fps, config: { damping: 16, stiffness: 90 } });
   const cam = frame < DROP ? lean : interpolate(pull, [0, 1], [1.12, 1]);
   const jarablus = PLACES[0];
@@ -60,7 +60,7 @@ export const MapScene: React.FC = () => {
           <path d={RIVER} fill="none" stroke="#3FA7C9" strokeWidth={34} strokeLinecap="round" opacity={0.85} pathLength={1} strokeDasharray={1} strokeDashoffset={draw} />
           <path d={RIVER} fill="none" stroke="#9BE3F5" strokeWidth={8} strokeLinecap="round" opacity={0.6} pathLength={1} strokeDasharray={1} strokeDashoffset={draw} />
         </svg>
-        <div style={{ position: "absolute", left: 870, top: 1120, rotate: "78deg", fontFamily: TEXT, fontWeight: 600, fontSize: 34, color: "#9BE3F5", opacity: interpolate(frame, [at(24), at(25)], [0, 0.9], CLAMP) }}>نهر الفرات</div>
+        <div style={{ position: "absolute", left: 870, top: 1120, rotate: "78deg", fontFamily: TEXT, fontWeight: 600, fontSize: 34, color: "#9BE3F5", opacity: interpolate(frame, [at(22.5), at(23.5)], [0, 0.9], CLAMP) }}>نهر الفرات</div>
         <div
           style={{
             position: "absolute",
@@ -109,7 +109,7 @@ export const MapScene: React.FC = () => {
         ))}
         <Burst x={jarablus.x} y={jarablus.y - 40} start={DROP} seed="map-drop" colors={[C.mint, C.cream]} count={50} power={1.4} life={40} />
       </AbsoluteFill>
-      {frame < at(26) + 4 && (
+      {frame < at(24) + 4 && (
         <div
           style={{
             position: "absolute",
@@ -119,14 +119,14 @@ export const MapScene: React.FC = () => {
             transformOrigin: "0 0",
             scale: interpolate(fly, [0, 1], [interpolate(card, [0, 1], [0.3, 1]), 0.1]),
             rotate: `${interpolate(fly, [0, 1], [-4, 20])}deg`,
-            opacity: interpolate(frame, [at(26), at(26) + 4], [1, 0], CLAMP),
+            opacity: interpolate(frame, [at(24), at(24) + 4], [1, 0], CLAMP),
           }}
         >
           <MotoCard width={360} />
         </div>
       )}
       <div style={{ position: "absolute", top: 250, left: 0, right: 0 }}>
-        <Words text="إعلانك بيوصل" start={at(27)} stagger={6} size={96} color={C.paper} />
+        <Words text="إعلانك بيوصل" start={at(25)} stagger={6} size={96} color={C.paper} />
         <Words text={"لكل أهل *جرابلس *وريفها"} start={DROP + 2} stagger={5} size={80} color={C.paper} accent={C.mint} />
       </div>
     </AbsoluteFill>

@@ -21,8 +21,8 @@ A 29-second vertical (1080×1920) promo for the Souq Jarablus app, in Syrian Ara
 
 ### Seller and buyer story
 
-`npx remotion render JarablusStory out/jarablus-story.mp4` renders a 30-second story cut to "What About Action?" (120 BPM,
-15 frames a beat): a seller posts an ad in the app's four steps, it flies onto a drawn map of Jarablus and its countryside
+`npx remotion render JarablusStory out/jarablus-story.mp4` renders a 27-second story cut to "Arab Nights" (Arabic trap, 120 BPM,
+15 frames a beat): a hook of real listings on the beat builds to the drop, where the logo slams in; a seller posts an ad in the app's four steps, it flies onto a drawn map of Jarablus and its countryside
 whose villages light up on the music's drop, a buyer finds it and messages on WhatsApp, and it ends on the download button.
 
 ### Logo and app short

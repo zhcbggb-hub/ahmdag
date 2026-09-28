@@ -11,9 +11,9 @@ const at = (n: number) => b(n) - BUYER_START;
 const PHONE_W = 380;
 const PHONE_H = (PHONE_W * 1280) / 627;
 const QUERY = "موتور";
-const TYPE_AT = at(37);
-const OPEN_AT = at(40);
-const WHATSAPP_AT = at(43);
+const TYPE_AT = at(35);
+const OPEN_AT = at(38);
+const WHATSAPP_AT = at(41);
 // The home screen's search bar and the ad's WhatsApp button, as fractions of the screen.
 const SEARCH = { x: 0.045, y: 0.085, w: 0.91, h: 0.06 };
 const WHATSAPP = { x: 0.74, y: 0.802 };

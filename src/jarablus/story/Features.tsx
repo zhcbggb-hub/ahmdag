@@ -2,12 +2,12 @@ import { mdiAccountMultipleCheck, mdiBellRing, mdiCashRemove } from "@mdi/js";
 import { AbsoluteFill, interpolate, Series, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { Icon, Words } from "../components";
 import { C } from "../theme";
-import { b, FEATURES_START, FINALE_START } from "./timing";
+import { FEATURES_START, FINALE_START } from "./timing";
 
 export const FEATURES_DURATION = FINALE_START - FEATURES_START;
-const SLOT = b(2);
+const SLOT = FEATURES_DURATION / 3;
 
-// Three quick cuts, two beats each.
+// Three quick cuts, 20 frames each.
 const ITEMS = [
   { text: "بلا وسيط", icon: mdiAccountMultipleCheck, bg: C.mint, fg: C.deep },
   { text: "بلا عمولة", icon: mdiCashRemove, bg: C.cream, fg: C.deep },

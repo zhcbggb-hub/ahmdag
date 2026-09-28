@@ -19,14 +19,14 @@ const STEPS = [
   { screen: "screen-description.jpg", label: "السعر والوصف", tap: { x: 0.38, y: 0.61 } },
   { screen: "screen-photos.jpg", label: "الصور", tap: { x: 0.38, y: 0.94 } },
 ];
-const STEP_AT = [at(7), at(10), at(13), at(16)];
+const STEP_AT = [at(9), at(11.5), at(14), at(16.5)];
 const PUBLISHED_AT = at(18.5);
 
 const Steps: React.FC = () => {
   const frame = useCurrentFrame();
   const current = STEP_AT.filter((s) => frame >= s).length - 1;
   return (
-    <div style={{ position: "absolute", top: 590, left: 60, right: 60, display: "flex", direction: "rtl", justifyContent: "center", gap: 14, opacity: interpolate(frame, [at(7) - 4, at(7)], [0, 1], CLAMP) }}>
+    <div style={{ position: "absolute", top: 590, left: 60, right: 60, display: "flex", direction: "rtl", justifyContent: "center", gap: 14, opacity: interpolate(frame, [at(9) - 4, at(9)], [0, 1], CLAMP) }}>
       {STEPS.map((s, i) => {
         const on = i <= current;
         return (
