@@ -1,0 +1,86 @@
+[
+  {
+    "id": "01-hook",
+    "file": "voiceover/story/01-hook.mp3",
+    "start": 3,
+    "durationInFrames": 76
+  },
+  {
+    "id": "02-reveal",
+    "file": "voiceover/story/02-reveal.mp3",
+    "start": 82,
+    "durationInFrames": 64
+  },
+  {
+    "id": "03-seller",
+    "file": "voiceover/story/03-seller.mp3",
+    "start": 149,
+    "durationInFrames": 71
+  },
+  {
+    "id": "04-published",
+    "file": "voiceover/story/04-published.mp3",
+    "start": 278,
+    "durationInFrames": 55
+  },
+  {
+    "id": "05-map",
+    "file": "voiceover/story/05-map.mp3",
+    "start": 336,
+    "durationInFrames": 78
+  },
+  {
+    "id": "06-villages",
+    "file": "voiceover/story/06-villages.mp3",
+    "start": 452,
+    "durationInFrames": 88
+  },
+  {
+    "id": "07-buyer",
+    "file": "voiceover/story/07-buyer.mp3",
+    "start": 543,
+    "durationInFrames": 123
+  },
+  {
+    "id": "08-features",
+    "file": "voiceover/story/08-features.mp3",
+    "start": 669,
+    "durationInFrames": 84
+  },
+  {
+    "id": "09-cta",
+    "file": "voiceover/story/09-cta.mp3",
+    "start": 756,
+    "durationInFrames": 87
+  },
+  {
+    "id": "10-chrome",
+    "file": "voiceover/story/10-chrome.mp3",
+    "start": 846,
+    "durationInFrames": 69
+  },
+  {
+    "id": "11-search",
+    "file": "voiceover/story/11-search.mp3",
+    "start": 918,
+    "durationInFrames": 87
+  },
+  {
+    "id": "12-link",
+    "file": "voiceover/story/12-link.mp3",
+    "start": 1008,
+    "durationInFrames": 77
+  },
+  {
+    "id": "13-download",
+    "file": "voiceover/story/13-download.mp3",
+    "start": 1088,
+    "durationInFrames": 88
+  },
+  {
+    "id": "14-end",
+    "file": "voiceover/story/14-end.mp3",
+    "start": 1179,
+    "durationInFrames": 64
+  }
+]

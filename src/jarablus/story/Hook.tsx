@@ -8,13 +8,21 @@ export const HOOK_DURATION = REVEAL_START;
 // A region of a screenshot: x, y, width and height in the screenshot's pixels, and the screenshot's width.
 type Crop = { src: string; x: number; y: number; w: number; h: number; W: number };
 
-// Real things for sale in the app, one per beat, each asking the viewer a question.
-const SHOTS: { crop: Crop; text: string }[] = [
-  { crop: { src: "screen-ad-moto.jpg", x: 0, y: 0, w: 618, h: 460, W: 618 }, text: "بدك *تبيع؟" },
-  { crop: { src: "screen-home.jpg", x: 325, y: 780, w: 275, h: 205, W: 627 }, text: "بدك *تشتري؟" },
-  { crop: { src: "screen-home.jpg", x: 28, y: 780, w: 272, h: 205, W: 627 }, text: "جديد ولّا *مستعمل؟" },
-  { crop: { src: "screen-home.jpg", x: 28, y: 465, w: 572, h: 190, W: 627 }, text: "بجرابلس *وريفها؟" },
+// Real things for sale in the app, one per beat.
+const CROPS: Crop[] = [
+  { src: "screen-ad-moto.jpg", x: 0, y: 0, w: 618, h: 460, W: 618 },
+  { src: "screen-home.jpg", x: 325, y: 780, w: 275, h: 205, W: 627 },
+  { src: "screen-home.jpg", x: 28, y: 780, w: 272, h: 205, W: 627 },
+  { src: "screen-home.jpg", x: 28, y: 465, w: 572, h: 190, W: 627 },
 ];
+
+// Three openings to test against each other on TikTok; everything after the hook is the same.
+export type HookVariant = "questions" | "commission" | "items";
+const TEXTS: Record<HookVariant, string[]> = {
+  questions: ["بدك *تبيع؟", "بدك *تشتري؟", "جديد ولّا *مستعمل؟", "بجرابلس *وريفها؟"],
+  commission: ["لا تدفع *عمولة", "ولا تدوّر على *سمسار", "بيع *بنفسك", "وبالسعر *اللي بدك ياه"],
+  items: ["عندك *موتور؟", "*كاميرا؟", "*تياب؟", "بيعها *بجرابلس"],
+};
 
 const CropImg: React.FC<{ crop: Crop; width: number; style?: React.CSSProperties }> = ({ crop, width, style }) => {
   const k = width / crop.w;
@@ -61,13 +69,13 @@ const Shot: React.FC<{ crop: Crop; text: string; index: number; last: boolean }>
 };
 
 // Four quick shots on the beat while the music builds, ending on a white-out as the drop hits.
-export const Hook: React.FC = () => {
+export const Hook: React.FC<{ variant: HookVariant }> = ({ variant }) => {
   const frame = useCurrentFrame();
   return (
     <AbsoluteFill>
-      {SHOTS.map((s, i) => (
+      {CROPS.map((crop, i) => (
         <Sequence key={i} from={b(i)} durationInFrames={b(1)} layout="absolute-fill">
-          <Shot crop={s.crop} text={s.text} index={i} last={i === SHOTS.length - 1} />
+          <Shot crop={crop} text={TEXTS[variant][i]} index={i} last={i === CROPS.length - 1} />
         </Sequence>
       ))}
       <AbsoluteFill style={{ background: "white", opacity: interpolate(frame, [HOOK_DURATION - 4, HOOK_DURATION], [0, 1], CLAMP) }} />

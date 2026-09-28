@@ -2,6 +2,9 @@
 //
 //   node scripts/generate-voiceover.mjs --list-voices        list Arabic voices to pick from
 //   node scripts/generate-voiceover.mjs --voice <voice_id>   generate public/voiceover/*.mp3
+//   node scripts/generate-voiceover.mjs --config src/jarablus/story/voiceover.json --name story
+//       uses the voice and model in that file and writes public/voiceover/story/*.mp3 and
+//       src/jarablus/story/voiceover.generated.json
 //
 // Needs ELEVENLABS_API_KEY in the environment. The narration and the frame each line starts on
 // live in src/jarablus/voiceover.json. After generating, the clips are listed in
@@ -38,15 +41,19 @@ if (process.argv.includes("--list-voices")) {
   process.exit(0);
 }
 
-const voice = arg("--voice") ?? process.env.ELEVENLABS_VOICE_ID;
+const configPath = arg("--config") ?? "src/jarablus/voiceover.json";
+const name = arg("--name");
+const config = JSON.parse(readFileSync(configPath, "utf8"));
+const voice = arg("--voice") ?? config.voice ?? process.env.ELEVENLABS_VOICE_ID;
 if (!voice) {
   console.error("Pass --voice <voice_id> (see --list-voices).");
   process.exit(1);
 }
 
-const config = JSON.parse(readFileSync("src/jarablus/voiceover.json", "utf8"));
 const model = arg("--model") ?? config.model;
-mkdirSync("public/voiceover", { recursive: true });
+const dir = name ? `voiceover/${name}` : "voiceover";
+const outJson = configPath.replace(/voiceover\.json$/, "voiceover.generated.json");
+mkdirSync(`public/${dir}`, { recursive: true });
 
 const clips = [];
 for (const line of config.lines) {
@@ -55,7 +62,7 @@ for (const line of config.lines) {
     headers: { "Content-Type": "application/json", Accept: "audio/mpeg" },
     body: JSON.stringify({ text: line.text, model_id: model }),
   });
-  const file = `voiceover/${line.id}.mp3`;
+  const file = `${dir}/${line.id}.mp3`;
   writeFileSync(`public/${file}`, Buffer.from(await res.arrayBuffer()));
   const seconds = Number(
     execFileSync("npx", ["remotion", "ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", `public/${file}`], { encoding: "utf8" }).trim(),
@@ -72,5 +79,5 @@ clips.forEach((clip, i) => {
   }
 });
 
-writeFileSync("src/jarablus/voiceover.generated.json", JSON.stringify(clips, null, 2) + "\n");
-console.log("Wrote src/jarablus/voiceover.generated.json");
+writeFileSync(outJson, JSON.stringify(clips, null, 2) + "\n");
+console.log(`Wrote ${outJson}`);

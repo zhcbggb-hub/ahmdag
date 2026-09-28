@@ -36,14 +36,17 @@ const Steps: React.FC = () => {
               fontFamily: DISPLAY,
               fontWeight: 800,
               fontSize: 30,
-              padding: "8px 20px 12px",
+              padding: "6px 18px 10px 10px",
               borderRadius: 30,
               background: on ? C.mint : "rgba(248,247,242,0.12)",
               color: on ? C.deep : C.paper,
               scale: i === current ? 1.08 : 1,
             }}
           >
-            {`${"١٢٣٤"[i]}. ${s.label}`}
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
+              <span style={{ width: 40, height: 40, borderRadius: 20, background: on ? C.deep : "rgba(248,247,242,0.2)", color: on ? C.mint : C.paper, display: "inline-flex", justifyContent: "center", alignItems: "center", fontSize: 24, lineHeight: 1 }}>{"١٢٣٤"[i]}</span>
+              {s.label}
+            </span>
           </div>
         );
       })}

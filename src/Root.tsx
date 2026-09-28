@@ -37,7 +37,10 @@ export const RemotionRoot: React.FC = () => {
       </Folder>
 
       {/* 30-second seller-and-buyer story, cut to the music: npx remotion render JarablusStory */}
-      <Composition id="JarablusStory" component={JarablusStory} durationInFrames={STORY_DURATION} {...vertical} />
+      <Composition id="JarablusStory" component={JarablusStory} durationInFrames={STORY_DURATION} defaultProps={{ hook: "questions", voice: false }} {...vertical} />
+      <Composition id="JarablusStoryCommission" component={JarablusStory} durationInFrames={STORY_DURATION} defaultProps={{ hook: "commission", voice: false }} {...vertical} />
+      <Composition id="JarablusStoryItems" component={JarablusStory} durationInFrames={STORY_DURATION} defaultProps={{ hook: "items", voice: false }} {...vertical} />
+      <Composition id="JarablusStoryVoice" component={JarablusStory} durationInFrames={STORY_DURATION} defaultProps={{ hook: "questions", voice: true }} {...vertical} />
 
       {/* 16-second logo and app short, cut to the music: npx remotion render JarablusShort */}
       <Composition id="JarablusShort" component={JarablusShort} durationInFrames={SHORT_DURATION} {...vertical} />
