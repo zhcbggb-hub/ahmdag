@@ -130,7 +130,8 @@ type CircleProps = { x?: number; y?: number };
 const CircleReveal: React.FC<TransitionPresentationComponentProps<CircleProps>> = ({ children, presentationDirection, presentationProgress, passedProps }) => {
   const x = passedProps.x ?? 50;
   const y = passedProps.y ?? 50;
-  const r = interpolate(presentationProgress, [0, 1], [0, 150], { easing: EASE_OUT });
+  // 90% of the reference length (the diagonal / √2) reaches every corner of a 9:16 frame.
+  const r = interpolate(presentationProgress, [0, 1], [0, 90], { easing: EASE_IN_OUT });
   return (
     <AbsoluteFill style={presentationDirection === "entering" ? { clipPath: `circle(${r}% at ${x}% ${y}%)` } : undefined}>{children}</AbsoluteFill>
   );

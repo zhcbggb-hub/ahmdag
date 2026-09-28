@@ -10,8 +10,8 @@ export const HookScene: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: `radial-gradient(circle at 50% 48%, #0B5E52 0%, ${C.deep} 45%, ${C.ink} 100%)` }}>
       <Rings x={540} y={930} color={C.mint} start={14} every={12} maxRadius={1000} strokeWidth={3} />
-      <Center style={{ scale: interpolate(frame, [0, HOOK_DURATION], [1, 1.1], CLAMP) }}>
-        <Words text={"عم تدوّر\nعلى *شي؟"} size={230} color={C.paper} stagger={6} lineHeight={1.35} />
+      <Center style={{ scale: interpolate(frame, [0, HOOK_DURATION], [1, 1.08], CLAMP) }}>
+        <Words text={"عم تدوّر\nعلى\n*شي؟"} size={220} color={C.paper} stagger={6} lineHeight={1.35} />
       </Center>
       <Hud index={1} total={6} label="كل السوق بمكان واحد" color={C.cream} />
     </AbsoluteFill>

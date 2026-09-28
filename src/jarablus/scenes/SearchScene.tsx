@@ -3,7 +3,7 @@ import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } fr
 import { Hud, Icon, Words } from "../components";
 import { C, CLAMP, DISPLAY, EASE_IN_OUT, TEXT } from "../theme";
 
-export const SEARCH_DURATION = 110;
+export const SEARCH_DURATION = 125;
 
 const QUERIES = ["سيارة", "شقة", "موبايل", "موتور"];
 const TYPING_START = 14;
@@ -67,12 +67,12 @@ export const SearchScene: React.FC = () => {
             <span style={{ width: 6, height: 84, marginInline: 8, background: C.brand, opacity: caretOn && lift < 1 ? 1 : 0 }} />
           </div>
         </div>
-        <div style={{ fontFamily: TEXT, fontSize: 44, fontWeight: 500, color: C.brand, marginTop: 40, opacity: interpolate(frame, [10, 20], [0, 1], CLAMP) * (1 - lift) }}>
+        <div style={{ direction: "rtl", fontFamily: TEXT, fontSize: 44, fontWeight: 500, color: C.brand, marginTop: 40, opacity: interpolate(frame, [10, 20], [0, 1], CLAMP) * (1 - lift) }}>
           ابحث عن سيارة، شقة، موبايل…
         </div>
       </AbsoluteFill>
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", paddingTop: 220 }}>
-        <Words text={"*كلّو هون."} start={TYPING_END + 6} size={210} color={C.deep} accent={C.brand} />
+        <Words text={"*كلّو هون."} start={TYPING_END + 6} size={190} color={C.deep} accent={C.brand} />
       </AbsoluteFill>
       <Hud index={2} total={6} label="بحث عربي سريع" color={C.brand} />
     </AbsoluteFill>

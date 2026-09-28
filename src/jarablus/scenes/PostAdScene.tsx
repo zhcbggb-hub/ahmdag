@@ -1,4 +1,4 @@
-import { mdiCheckDecagram } from "@mdi/js";
+import { mdiCheckBold, mdiCheckDecagram } from "@mdi/js";
 import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { Hud, Icon, Words } from "../components";
 import { C, CLAMP, DISPLAY, EASE_IN_OUT } from "../theme";
@@ -7,10 +7,10 @@ export const POST_AD_DURATION = 205;
 
 // Real screens from the app's "new ad" flow. `tap` is where the "متابعة" button sits, as a fraction of the screenshot.
 const STEPS = [
-  { screen: "screen-category.jpg", label: "١  اختار القسم", tap: { x: 0.5, y: 0.95 } },
-  { screen: "screen-title.jpg", label: "٢  اكتب العنوان", tap: { x: 0.38, y: 0.61 } },
-  { screen: "screen-description.jpg", label: "٣  السعر والوصف", tap: { x: 0.38, y: 0.61 } },
-  { screen: "screen-photos.jpg", label: "٤  ضيف الصور", tap: { x: 0.38, y: 0.94 } },
+  { screen: "screen-category.jpg", number: "١", label: "اختار القسم", tap: { x: 0.5, y: 0.95 } },
+  { screen: "screen-title.jpg", number: "٢", label: "اكتب العنوان", tap: { x: 0.38, y: 0.61 } },
+  { screen: "screen-description.jpg", number: "٣", label: "السعر والوصف", tap: { x: 0.38, y: 0.61 } },
+  { screen: "screen-photos.jpg", number: "٤", label: "ضيف الصور", tap: { x: 0.38, y: 0.94 } },
 ];
 const START = 8;
 const SLOT = 42;
@@ -20,7 +20,7 @@ const DONE = START + STEPS.length * SLOT;
 const SCREEN_W = 436;
 const SCREEN_H = 872;
 const BEZEL = 12;
-const PHONE_TOP = 640;
+const PHONE_TOP = 660;
 
 const Phone: React.FC = () => {
   const frame = useCurrentFrame();
@@ -109,26 +109,33 @@ const StepPill: React.FC = () => {
   const local = frame - START - index * SLOT;
   const p = spring({ frame: local, fps, config: { damping: 14, stiffness: 200 } });
   const isDone = index === STEPS.length;
-  const label = isDone ? "✓  مراجعة قبل النشر" : STEPS[index].label;
+  const label = isDone ? "مراجعة قبل النشر" : STEPS[index].label;
 
   return (
-    <div style={{ position: "absolute", top: 520, left: 0, right: 0, display: "flex", justifyContent: "center", opacity: frame < START ? 0 : 1 }}>
+    <div style={{ position: "absolute", top: 530, left: 0, right: 0, display: "flex", justifyContent: "center", opacity: frame < START ? 0 : 1 }}>
       <div
         style={{
           direction: "rtl",
+          display: "flex",
+          alignItems: "center",
+          gap: 20,
           fontFamily: DISPLAY,
           fontWeight: 800,
           fontSize: 50,
           color: C.deep,
           background: isDone ? C.cream : C.mint,
           borderRadius: 60,
-          padding: "14px 48px 20px",
+          padding: "10px 12px 10px 44px",
           scale: interpolate(p, [0, 1], [0.7, 1]),
           translate: `0 ${interpolate(p, [0, 1], [30, 0])}px`,
           opacity: interpolate(p, [0, 0.3], [0, 1], CLAMP),
         }}
       >
-        {label}
+        {/* The step number sits in its own badge: in this font "١" alone looks like the letter "ا". */}
+        <div style={{ width: 80, height: 80, borderRadius: 40, background: C.deep, color: isDone ? C.cream : C.mint, display: "flex", justifyContent: "center", alignItems: "center", fontSize: 46, lineHeight: 1 }}>
+          {isDone ? <Icon path={mdiCheckBold} size={50} color={C.cream} /> : STEPS[index].number}
+        </div>
+        <span style={{ lineHeight: 1.2, paddingBottom: 6 }}>{label}</span>
       </div>
     </div>
   );
@@ -136,8 +143,8 @@ const StepPill: React.FC = () => {
 
 export const PostAdScene: React.FC = () => (
   <AbsoluteFill style={{ background: `radial-gradient(circle at 50% 70%, #0B5E52 0%, ${C.deep} 50%, ${C.ink} 100%)` }}>
-    <AbsoluteFill style={{ top: 250, height: 240, justifyContent: "center" }}>
-      <Words text={"انشر إعلانك\n*بأربع خطوات"} size={100} color={C.paper} lineHeight={1.25} stagger={4} />
+    <AbsoluteFill style={{ top: 240, height: 270, justifyContent: "center" }}>
+      <Words text={"انشر إعلانك\n*بأربع *خطوات"} size={96} color={C.paper} lineHeight={1.42} stagger={4} />
     </AbsoluteFill>
     <StepPill />
     <Phone />

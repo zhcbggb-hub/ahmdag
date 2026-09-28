@@ -47,7 +47,7 @@ const Feature: React.FC<(typeof FEATURES)[number]> = ({ title, sub, icon, bg, fg
         <Icon path={icon} size={200} color={glyph} style={iconMotion} />
       </div>
       <AbsoluteFill style={{ top: 1030, height: 200, justifyContent: "center" }}>
-        <Words text={title} start={4} size={124} color={fg} stagger={4} />
+        <Words text={title} start={4} size={112} color={fg} stagger={4} />
       </AbsoluteFill>
       <div
         style={{
