@@ -52,10 +52,12 @@ It is not committed; run `sh scripts/fetch-music.sh` before rendering. The music
 
 ## Abu Sham real estate ad
 
-`npx remotion render AbuShamPromo out/abusham.mp4` renders a 26-second vertical ad for Abu Sham real estate office
-(Jarablus, Station Road), cut to "Golden Storm" (Mixkit, about 128 BPM): a blueprint tower is drawn under the
-questions "بدك بيت؟ أرض؟ محل؟", the office's mark (redrawn as vector shapes in `src/abusham/LogoIcon.tsx`) builds on
-the drop, then its five services, the real storefront, Syria and Turkey on a globe, and both phone numbers.
+`npx remotion render AbuShamPromo out/abusham.mp4` renders a 25-second vertical ad for Abu Sham real estate office
+(Jarablus, Station Road), cut to "Golden Storm" (Mixkit, about 128 BPM). It opens on the Earth (NASA Blue Marble, public
+domain, projected onto a turning globe in `src/abusham/Hook.tsx`), dives through clouds onto a stylised night view of
+Jarablus and drops a pin on the office; on the music's drop the office's mark (redrawn as vector shapes in
+`src/abusham/LogoIcon.tsx`) builds. Then three services, a call to list a property for sale, the real storefront,
+"مكتب أبو شام للثقة عنوان" and both phone numbers.
 
 ## Commands
 

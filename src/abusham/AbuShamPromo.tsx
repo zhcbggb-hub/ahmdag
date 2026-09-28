@@ -13,11 +13,13 @@ const S = (i: number) => SERVICES_START + i * SERVICE_DURATION;
 // Sound effects from public/sfx. `at` is when the file starts, shifted by the time its hit takes to arrive
 // (a negative `at` starts the file part-way through).
 const SFX = [
-  { name: "impact-deep", at: -16, volume: 0.55 },
-  { name: "pen", at: 2, volume: 0.45 },
-  { name: "pen", at: 34, volume: 0.4 },
-  { name: "whoosh-fast", at: beat(3) - 32, volume: 0.35 },
-  { name: "whoosh-fast", at: beat(5) - 32, volume: 0.35 },
+  // The Earth hook: the globe turns, the camera dives, clouds rush past and the pin lands.
+  { name: "impact-deep", at: -16, volume: 0.45 },
+  { name: "zoom", at: 40 - 13, volume: 0.7 },
+  { name: "wings", at: 60 - 21, volume: 0.5 },
+  { name: "pin-fall", at: 80 - 9, volume: 0.55 },
+  { name: "impact-deep", at: 84 - 16, volume: 0.7 },
+  { name: "pop", at: 86, volume: 0.45 },
   { name: "riser", at: DROP_AT - 75, volume: 0.6 },
   { name: "impact-epic", at: DROP_AT - 28, volume: 0.7 },
   { name: "pop", at: LOGO_START + 6, volume: 0.35 },

@@ -120,7 +120,7 @@ export const EndCard: React.FC = () => {
           }}
         >
           <Icon path={mdiWhatsapp} size={76} color="white" />
-          تواصل معنا هلّق
+          تواصل معنا الآن
           <AbsoluteFill style={{ background: `linear-gradient(110deg, transparent ${shine - 12}%, rgba(255,255,255,0.6) ${shine}%, transparent ${shine + 12}%)` }} />
         </div>
       </div>
