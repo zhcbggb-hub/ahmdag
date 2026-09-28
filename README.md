@@ -11,6 +11,24 @@
 
 Welcome to your Remotion project!
 
+## Souq Jarablus TikTok promo
+
+A 29-second vertical (1080×1920) promo for the Souq Jarablus app, in Syrian Arabic.
+
+- Render: `npx remotion render JarablusPromo out/jarablus-tiktok.mp4`
+- Each scene is in `src/jarablus/scenes/` and also shows up on its own in the Studio under "JarablusPromo-Scenes".
+- Fonts (Alexandria, Readex Pro) and the app screenshots are bundled in `public/`, so rendering needs no network.
+
+### Voiceover (ElevenLabs)
+
+Needs `ELEVENLABS_API_KEY` set in the cloud environment's settings (a new session picks it up).
+
+1. `node scripts/generate-voiceover.mjs --list-voices` and pick an Arabic voice (Levantine if available).
+2. `node scripts/generate-voiceover.mjs --voice <voice_id>` writes `public/voiceover/*.mp3` and `src/jarablus/voiceover.generated.json`, and warns if a line runs into the next one.
+3. Render again; the video plays every clip listed in `voiceover.generated.json` at its start frame.
+
+The narration and the frame each line starts on are in `src/jarablus/voiceover.json`.
+
 ## Commands
 
 **Install Dependencies**
