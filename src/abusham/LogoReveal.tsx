@@ -6,7 +6,7 @@ import { A, LOGO_START, SERVICES_START } from "./theme";
 
 export const LOGO_REVEAL_DURATION = SERVICES_START - LOGO_START;
 
-const SERVICES = ["بيع", "شراء", "آجار", "بناء", "تعهدات"];
+const SERVICES = ["بيع", "شراء", "آجار"];
 
 // On the drop: the mark builds itself, then the office's name, its ribbon and the list of services.
 export const LogoReveal: React.FC = () => {

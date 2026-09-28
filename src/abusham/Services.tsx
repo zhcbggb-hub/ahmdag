@@ -1,11 +1,11 @@
-import { mdiCrane, mdiDoorClosed, mdiDoorOpen, mdiHandshake, mdiKeyVariant } from "@mdi/js";
+import { mdiDoorClosed, mdiDoorOpen, mdiHandshake, mdiKeyVariant } from "@mdi/js";
 import { AbsoluteFill, Img, interpolate, Series, spring, staticFile, useCurrentFrame, useVideoConfig, Easing } from "remotion";
 import { Burst, Icon, Rings, Words } from "../jarablus/components";
 import { CLAMP, DISPLAY, TEXT } from "../jarablus/theme";
 import { A, beat, SERVICE_BEATS } from "./theme";
 
 export const SERVICE_DURATION = beat(SERVICE_BEATS);
-export const SERVICES_DURATION = SERVICE_DURATION * 5;
+export const SERVICES_DURATION = SERVICE_DURATION * 3;
 
 const CX = 540;
 const CY = 960;
@@ -86,94 +86,10 @@ const Rent: React.FC = () => {
   );
 };
 
-// بناء: floors dropping onto each other while a crane swings.
-const Build: React.FC = () => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const floors = 7;
-  return (
-    <>
-      <div style={{ position: "absolute", left: 120, top: CY - 420, rotate: `${Math.sin(frame / 10) * 4}deg`, transformOrigin: "30% 100%" }}>
-        <Icon path={mdiCrane} size={360} color={A.gold} />
-      </div>
-      <div style={{ position: "absolute", left: CX - 230, top: CY + 330, width: 520, height: 10, borderRadius: 5, background: "white", opacity: 0.8 }} />
-      {new Array(floors).fill(0).map((_, i) => {
-        const p = spring({ frame: frame - (3 + i * 5), fps, config: { damping: 11, stiffness: 260 } });
-        return (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              left: CX - 150,
-              top: CY + 270 - i * 66,
-              width: 360,
-              height: 60,
-              borderRadius: 6,
-              background: `linear-gradient(90deg, ${A.royal}, ${A.sky})`,
-              border: "3px solid white",
-              opacity: frame < 3 + i * 5 ? 0 : 1,
-              translate: `0 ${(1 - p) * -500}px`,
-              backgroundImage: `repeating-linear-gradient(90deg, transparent 0 34px, rgba(255,255,255,0.85) 34px 50px), linear-gradient(90deg, ${A.royal}, ${A.sky})`,
-            }}
-          />
-        );
-      })}
-    </>
-  );
-};
-
-// تعهدات: a contract is written and signed, then sealed.
-const Contract: React.FC = () => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const seal = spring({ frame: frame - 40, fps, config: { damping: 10, stiffness: 260 } });
-  const lines = [0.9, 0.75, 0.85, 0.6, 0.8];
-  return (
-    <>
-      <div style={{ position: "absolute", left: CX - 250, top: CY - 330, width: 500, height: 640, borderRadius: 24, background: "white", boxShadow: "0 40px 90px rgba(0,0,0,0.45)", rotate: "2deg", direction: "rtl", padding: "46px 50px" }}>
-        <div style={{ fontFamily: DISPLAY, fontWeight: 900, fontSize: 48, color: A.navy, textAlign: "center" }}>عقد تعهّد</div>
-        {lines.map((w, i) => (
-          <div key={i} style={{ height: 14, borderRadius: 7, background: "#D6DEEA", marginTop: 30, width: `${w * 100 * interpolate(frame, [4 + i * 3, 12 + i * 3], [0, 1], CLAMP)}%` }} />
-        ))}
-        <svg width={400} height={150} style={{ position: "absolute", left: 50, bottom: 50 }}>
-          <path d="M 330 90 C 300 20, 270 130, 240 70 S 190 40, 170 95 S 120 60, 90 80 L 40 85" fill="none" stroke={A.navy} strokeWidth={6} strokeLinecap="round" pathLength={1} strokeDasharray={1} strokeDashoffset={interpolate(frame, [20, 38], [1, 0], CLAMP)} />
-          <path d="M 20 125 L 380 125" stroke="#B8C3D4" strokeWidth={3} />
-        </svg>
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          left: CX + 90,
-          top: CY + 140,
-          width: 170,
-          height: 170,
-          borderRadius: 85,
-          border: `8px solid ${A.gold}`,
-          background: "rgba(245,185,66,0.15)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontFamily: DISPLAY,
-          fontWeight: 900,
-          fontSize: 40,
-          color: A.gold,
-          rotate: "-12deg",
-          scale: interpolate(seal, [0, 1], [2.2, 1]),
-          opacity: frame < 40 ? 0 : Math.min(1, seal * 1.5),
-        }}
-      >
-        معتمد
-      </div>
-    </>
-  );
-};
-
 const ITEMS = [
   { title: "بيع", sub: "بيوت، أراضي، ومحلات", Visual: Sell },
   { title: "شراء", sub: "نلاقيلك اللي بيناسبك", Visual: Buy },
   { title: "آجار", sub: "بيوت ومحلات للآجار", Visual: Rent },
-  { title: "بناء", sub: "من الأساس للتسليم", Visual: Build },
-  { title: "تعهدات", sub: "تعهدات بناء", Visual: Contract },
 ];
 
 const Service: React.FC<{ index: number }> = ({ index }) => {
@@ -193,7 +109,7 @@ const Service: React.FC<{ index: number }> = ({ index }) => {
     >
       <div style={{ position: "absolute", top: 250, left: 80, right: 80, display: "flex", justifyContent: "space-between", direction: "rtl", fontFamily: TEXT, fontWeight: 600, fontSize: 30, color: A.sky }}>
         <span>خدماتنا</span>
-        <span>{`${"٠١٢٣٤٥"[index + 1]} / ٥`}</span>
+        <span>{`${"١٢٣"[index]} / ٣`}</span>
       </div>
       <AbsoluteFill style={{ top: 300, height: 260, justifyContent: "center" }}>
         <Words text={title} start={2} size={170} color="white" />
