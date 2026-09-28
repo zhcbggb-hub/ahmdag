@@ -10,3 +10,6 @@ Config.setRspack(true);
 Config.setVideoImageFormat("jpeg");
 Config.setOverwriteOutput(true);
 Config.overrideBundlerConfig(enableTailwind);
+
+// The light leak effect in the short needs WebGL; SwiftShader provides it without a GPU.
+Config.setChromiumOpenGlRenderer("swangle");

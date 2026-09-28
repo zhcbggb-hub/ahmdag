@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, interpolate, random, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import type { TransitionPresentation, TransitionPresentationComponentProps } from "@remotion/transitions";
 import { C, CLAMP, DISPLAY, EASE_IN_OUT, EASE_OUT, TEXT } from "./theme";
 
@@ -71,8 +71,8 @@ export const Hud: React.FC<{ index: number; total: number; label: string; color:
   );
 };
 
-// Ripples spreading out from a point, like the pin in the logo.
-export const Rings: React.FC<{ x: number; y: number; color: string; count?: number; every?: number; maxRadius?: number; start?: number; strokeWidth?: number }> = ({
+// Ripples spreading out from a point, like the pin in the logo. `total` limits how many rings are sent out.
+export const Rings: React.FC<{ x: number; y: number; color: string; count?: number; every?: number; maxRadius?: number; start?: number; strokeWidth?: number; total?: number }> = ({
   x,
   y,
   color,
@@ -81,13 +81,14 @@ export const Rings: React.FC<{ x: number; y: number; color: string; count?: numb
   maxRadius = 900,
   start = 0,
   strokeWidth = 4,
+  total,
 }) => {
   const frame = useCurrentFrame();
   const life = every * count;
   return (
     <AbsoluteFill>
       <svg width="100%" height="100%" style={{ overflow: "visible" }}>
-        {new Array(count * 3).fill(0).map((_, i) => {
+        {new Array(total ?? count * 3).fill(0).map((_, i) => {
           const t = frame - start - i * every;
           if (t < 0 || t > life) return null;
           const p = t / life;
@@ -113,6 +114,44 @@ export const OrbitDots: React.FC<{ x: number; y: number; radius: number; count: 
           const r = radius * interpolate(appear, [0, 1], [0.6, 1]);
           const pulse = 1 + 0.35 * Math.sin(frame * 0.15 + i);
           return <circle key={i} cx={x + Math.cos(a) * r} cy={y + Math.sin(a) * r} r={(size / 2) * appear * pulse} fill={color} />;
+        })}
+      </svg>
+    </AbsoluteFill>
+  );
+};
+
+// Particles thrown out from a point, slowing down and falling a little as they fade.
+export const Burst: React.FC<{ x: number; y: number; start: number; seed: string; colors: string[]; count?: number; power?: number; life?: number }> = ({
+  x,
+  y,
+  start,
+  seed,
+  colors,
+  count = 36,
+  power = 1,
+  life = 36,
+}) => {
+  const frame = useCurrentFrame();
+  const t = frame - start;
+  if (t < 0 || t > life) return null;
+  return (
+    <AbsoluteFill>
+      <svg width="100%" height="100%" style={{ overflow: "visible" }}>
+        {new Array(count).fill(0).map((_, i) => {
+          const angle = random(`${seed}-a-${i}`) * Math.PI * 2;
+          const speed = (10 + random(`${seed}-s-${i}`) * 26) * power;
+          const travel = speed * 9 * (1 - Math.exp(-t / 9));
+          const size = 3 + random(`${seed}-r-${i}`) * 8;
+          return (
+            <circle
+              key={i}
+              cx={x + Math.cos(angle) * travel}
+              cy={y + Math.sin(angle) * travel + 0.12 * t * t}
+              r={size * interpolate(t, [0, life], [1, 0.3])}
+              fill={colors[i % colors.length]}
+              opacity={interpolate(t, [0, 3, life], [0, 1, 0], CLAMP)}
+            />
+          );
         })}
       </svg>
     </AbsoluteFill>

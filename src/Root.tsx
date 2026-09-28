@@ -10,6 +10,11 @@ import { NO_MIDDLEMAN_DURATION, NoMiddlemanScene } from "./jarablus/scenes/NoMid
 import { OUTRO_DURATION, OutroScene } from "./jarablus/scenes/OutroScene";
 import { POST_AD_DURATION, PostAdScene } from "./jarablus/scenes/PostAdScene";
 import { SEARCH_DURATION, SearchScene } from "./jarablus/scenes/SearchScene";
+import { AppShowcase, APP_SHOWCASE_DURATION } from "./jarablus/short/AppShowcase";
+import { Finale, FINALE_DURATION } from "./jarablus/short/Finale";
+import { JarablusShort } from "./jarablus/short/JarablusShort";
+import { LogoBuild, LOGO_BUILD_DURATION } from "./jarablus/short/LogoBuild";
+import { SHORT_DURATION } from "./jarablus/short/timing";
 import { FPS, HEIGHT, WIDTH } from "./jarablus/theme";
 
 const vertical = { fps: FPS, width: WIDTH, height: HEIGHT };
@@ -27,6 +32,14 @@ export const RemotionRoot: React.FC = () => {
         <Composition id="PostAd" component={PostAdScene} durationInFrames={POST_AD_DURATION} {...vertical} />
         <Composition id="Features" component={FeaturesScene} durationInFrames={FEATURES_DURATION} {...vertical} />
         <Composition id="Outro" component={OutroScene} durationInFrames={OUTRO_DURATION} {...vertical} />
+      </Folder>
+
+      {/* 16-second logo and app short, cut to the music: npx remotion render JarablusShort */}
+      <Composition id="JarablusShort" component={JarablusShort} durationInFrames={SHORT_DURATION} {...vertical} />
+      <Folder name="JarablusShort-Scenes">
+        <Composition id="LogoBuild" component={LogoBuild} durationInFrames={LOGO_BUILD_DURATION} {...vertical} />
+        <Composition id="AppShowcase" component={AppShowcase} durationInFrames={APP_SHOWCASE_DURATION} {...vertical} />
+        <Composition id="Finale" component={Finale} durationInFrames={FINALE_DURATION} {...vertical} />
       </Folder>
 
       <Composition
