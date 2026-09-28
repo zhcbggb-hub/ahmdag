@@ -1,4 +1,6 @@
 import "./index.css";
+import { AbuShamPromo } from "./abusham/AbuShamPromo";
+import { PROMO_DURATION as ABUSHAM_DURATION } from "./abusham/theme";
 import { Composition, Folder } from "remotion";
 import { HelloWorld } from "./HelloWorld";
 import { Logo } from "./HelloWorld/Logo";
@@ -24,6 +26,9 @@ const vertical = { fps: FPS, width: WIDTH, height: HEIGHT };
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* Abu Sham real estate office ad: npx remotion render AbuShamPromo */}
+      <Composition id="AbuShamPromo" component={AbuShamPromo} durationInFrames={ABUSHAM_DURATION} {...vertical} />
+
       {/* Souq Jarablus TikTok promo: npx remotion render JarablusPromo */}
       <Composition id="JarablusPromo" component={JarablusPromo} durationInFrames={PROMO_DURATION} {...vertical} />
       <Folder name="JarablusPromo-Scenes">

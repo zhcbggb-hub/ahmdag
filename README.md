@@ -50,6 +50,13 @@ ElevenLabs' free plan cannot use Voice Library voices, voice design or music thr
 "What About Action?" from Mixkit (Mixkit License: free for commercial projects, not to be redistributed on its own).
 It is not committed; run `sh scripts/fetch-music.sh` before rendering. The music fades in and out and dips under the voiceover.
 
+## Abu Sham real estate ad
+
+`npx remotion render AbuShamPromo out/abusham.mp4` renders a 26-second vertical ad for Abu Sham real estate office
+(Jarablus, Station Road), cut to "Golden Storm" (Mixkit, about 128 BPM): a blueprint tower is drawn under the
+questions "بدك بيت؟ أرض؟ محل؟", the office's mark (redrawn as vector shapes in `src/abusham/LogoIcon.tsx`) builds on
+the drop, then its five services, the real storefront, Syria and Turkey on a globe, and both phone numbers.
+
 ## Commands
 
 **Install Dependencies**
