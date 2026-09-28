@@ -19,6 +19,13 @@ A 29-second vertical (1080×1920) promo for the Souq Jarablus app, in Syrian Ara
 - Each scene is in `src/jarablus/scenes/` and also shows up on its own in the Studio under "JarablusPromo-Scenes".
 - Fonts (Alexandria, Readex Pro) and the app screenshots are bundled in `public/`, so rendering needs no network.
 
+### Logo and app short
+
+`npx remotion render JarablusShort out/jarablus-short.mp4` renders a 16-second short cut to the music: the logo builds
+piece by piece, the camera dives through the pin into the app, and it ends on "خلّي كل أهل جرابلس وريفها يشوفوا إعلانك"
+and a download button. The logo layers come from `python3 scripts/split-logo.py` (run it again after replacing
+`public/logo.png`). The light leak needs WebGL, which `remotion.config.ts` provides through SwiftShader.
+
 ### Voiceover (ElevenLabs)
 
 Needs `ELEVENLABS_API_KEY` set in the cloud environment's settings (a new session picks it up).

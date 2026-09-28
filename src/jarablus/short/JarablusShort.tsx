@@ -31,7 +31,9 @@ const SFX = [
   { name: "impact-deep", at: beat(28) - 16, volume: 0.6 },
 ];
 
-const musicVolume = (frame: number) => interpolate(frame, [0, 3, SHORT_DURATION - 30, SHORT_DURATION - 1], [0, 0.9, 0.9, 0], CLAMP);
+// Overall level (-3 dB), so the mix lands at about -14 LUFS with peaks under -1 dBTP, as social platforms expect.
+const MIX = 0.708;
+const musicVolume = (frame: number) => MIX * interpolate(frame, [0, 3, SHORT_DURATION - 30, SHORT_DURATION - 1], [0, 0.9, 0.9, 0], CLAMP);
 
 export const JarablusShort: React.FC = () => (
   <AbsoluteFill style={{ background: C.ink }}>
@@ -47,7 +49,7 @@ export const JarablusShort: React.FC = () => (
     <Audio src={staticFile("music/cat-walk.mp3")} trimBefore={MUSIC_TRIM} volume={musicVolume} />
     {SFX.map((sfx, i) => (
       <Sequence key={i} name={`Sound ${sfx.name}`} from={sfx.at} layout="none">
-        <Audio src={staticFile(`sfx/${sfx.name}.mp3`)} volume={() => sfx.volume} />
+        <Audio src={staticFile(`sfx/${sfx.name}.mp3`)} volume={() => MIX * sfx.volume} />
       </Sequence>
     ))}
   </AbsoluteFill>

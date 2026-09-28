@@ -19,19 +19,15 @@ near = lab[iy, ix]
 near[alpha == 0] = 0
 
 # Name each solid piece by where it sits in the logo.
-groups = {"wings": set(), "souq": set(), "teal": set(), "jarablus": set(), "jeem": set(), "ribbon": set()}
+groups = {"wings": set(), "top": set(), "jarablus": set(), "jeem": set(), "ribbon": set()}
 for label, (ys, xs) in enumerate(ndimage.find_objects(lab), start=1):
     y0, x0, x1 = ys.start, xs.start, xs.stop
     if y0 > 600:
         groups["ribbon"].add(label)          # the tagline ribbon and its two dashes
-    elif y0 < 90 and x1 - x0 < 80:
-        groups["souq"].add(label)            # the two dots of ق
-    elif x1 <= 520:
+    elif x1 <= 530:
         groups["wings"].add(label)
-    elif y0 < 100 and x0 > 700:
-        groups["teal"].add(label)            # "سو" joined to the alef of جرابلس
     elif y0 < 100:
-        groups["souq"].add(label)            # ق
+        groups["top"].add(label)             # "سوق" and its dots, joined to the alef of جرابلس by the waw's tail
     elif x0 > 700:
         groups["jeem"].add(label)            # ج and ر, with the pin
     else:
@@ -40,16 +36,17 @@ for label, (ys, xs) in enumerate(ndimage.find_objects(lab), start=1):
 yy, xx = np.mgrid[0:h, 0:w]
 inside = lambda group: np.isin(near, list(group))
 
-# The pin: a teardrop around its head, pointing down to the tip.
-cx, cy, r, tip_y = 879, 372, 74, 510
+# The pin: a teardrop around its head, pointing down to the tip, wide enough to keep its dark outline.
+cx, cy, r, tip_y = 880, 372, 79, 516
 t = np.clip((yy - cy) / (tip_y - cy), 0, 1)
-pin_shape = ((xx - cx) ** 2 + (yy - cy) ** 2 <= r**2) | ((yy >= cy) & (yy <= tip_y) & (np.abs(xx - cx) <= (1 - t) * 64))
-SPLIT_Y = 258  # where the waw's tail meets the alef
+pin_shape = ((xx - cx) ** 2 + (yy - cy) ** 2 <= r**2) | ((yy >= cy) & (yy <= tip_y) & (np.abs(xx - cx) <= (1 - t) * 69))
+# The alef of جرابلس: the upright bar under "سو", below where the waw's tail meets it.
+alef = (xx >= 686) & (xx <= 800) & (yy >= 262)
 
 layers = {
     "wings": inside(groups["wings"]),
-    "souq": inside(groups["souq"]) | (inside(groups["teal"]) & (yy < SPLIT_Y)),
-    "jarablus": inside(groups["jarablus"]) | (inside(groups["teal"]) & (yy >= SPLIT_Y)) | (inside(groups["jeem"]) & ~pin_shape),
+    "souq": inside(groups["top"]) & ~alef,
+    "jarablus": inside(groups["jarablus"]) | (inside(groups["top"]) & alef) | (inside(groups["jeem"]) & ~pin_shape),
     "pin": inside(groups["jeem"]) & pin_shape,
     "ribbon": inside(groups["ribbon"]),
 }
