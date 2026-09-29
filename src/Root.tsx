@@ -1,6 +1,7 @@
 import "./index.css";
 import { AbuShamPromo } from "./abusham/AbuShamPromo";
 import { PROMO_DURATION as ABUSHAM_DURATION } from "./abusham/theme";
+import { CONTACT_STING_DURATION, ContactSting, LOGO_STING_DURATION, LogoSting } from "./abusham/Stings";
 import { Composition, Folder } from "remotion";
 import { HelloWorld } from "./HelloWorld";
 import { Logo } from "./HelloWorld/Logo";
@@ -28,6 +29,9 @@ export const RemotionRoot: React.FC = () => {
     <>
       {/* Abu Sham real estate office ad: npx remotion render AbuShamPromo */}
       <Composition id="AbuShamPromo" component={AbuShamPromo} durationInFrames={ABUSHAM_DURATION} {...vertical} />
+      {/* Short clips for the office's own edits; pass --props='{"bg":"green"}' or '{"bg":"none"}' for other backgrounds. */}
+      <Composition id="AbuShamLogoSting" component={LogoSting} durationInFrames={LOGO_STING_DURATION} defaultProps={{ bg: "brand" as const }} {...vertical} />
+      <Composition id="AbuShamContactSting" component={ContactSting} durationInFrames={CONTACT_STING_DURATION} defaultProps={{ bg: "brand" as const }} {...vertical} />
 
       {/* Souq Jarablus TikTok promo: npx remotion render JarablusPromo */}
       <Composition id="JarablusPromo" component={JarablusPromo} durationInFrames={PROMO_DURATION} {...vertical} />
