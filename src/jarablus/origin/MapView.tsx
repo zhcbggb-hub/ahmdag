@@ -3,7 +3,7 @@ import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { Icon } from "../components";
 import { C, CLAMP, DISPLAY, EASE_IN_OUT, EASE_OUT } from "../theme";
 import data from "./map-data.json";
-import { camera, DISTRICT_AT, DIVE_AT, GROW_AT, NETWORK_AT, PEOPLE_ALL_AT, PEOPLE_AT, REGIONS_AT, sec, toPx, VILLAGES_AT } from "./timing";
+import { camera, DISTRICT_AT, DIVE_AT, NETWORK_AT, PEOPLE_ALL_AT, PEOPLE_AT, REGIONS_AT, sec, toPx, VILLAGES_AT } from "./timing";
 
 export const RIVER = "#5BC8F5";
 export const VILLAGES = data.villages;
@@ -34,14 +34,10 @@ export const LINKS = (() => {
   return out;
 })();
 
-// Only the places named in the brief are labelled, plus the two sub-districts.
-const LABELS = [
-  { name: "الغندورة", at: GROW_AT + 8, dy: -1 },
-  { name: "العمارنة", at: GROW_AT + 16, dy: 1 },
-];
+// The two sub-districts light up in turn; no place is named on the map.
 const SUBDISTRICTS = [
-  { key: "Jarablus" as const, label: "ناحية جرابلس", x: -6, y: 13, at: REGIONS_AT },
-  { key: "Ghandorah" as const, label: "ناحية الغندورة", x: -27, y: 22, at: REGIONS_AT + 24 },
+  { key: "Jarablus" as const, at: REGIONS_AT },
+  { key: "Ghandorah" as const, at: REGIONS_AT + 24 },
 ];
 
 // The real map of Jarablus District, drawn through a moving camera. `dim` darkens it under overlays.
@@ -141,18 +137,9 @@ export const MapView: React.FC<{ dim?: number }> = ({ dim = 0 }) => {
         })}
       </svg>
 
-      {/* Names, drawn as HTML so the Arabic stays crisp at any zoom. */}
+      {/* The pin on Jarablus town. */}
       {/* Hidden while the buyer marker sits on the town. */}
-      <Label at={DISTRICT_AT + 20} {...toPx(cam, JARABLUS.x, JARABLUS.y)} text="جرابلس" size={Math.min(64, 30 + cam.s * 0.9)} main hide={[PEOPLE_AT - 4, DIVE_AT]} />
-      {LABELS.map((l) => {
-        const v = VILLAGES.find((x) => x.name === l.name)!;
-        const p = toPx(cam, v.x, v.y);
-        return <Label key={l.name} at={l.at} x={p.x} y={p.y + l.dy * 40} text={l.name} size={34} />;
-      })}
-      {SUBDISTRICTS.map((s) => {
-        const p = toPx(cam, s.x, s.y);
-        return <Label key={s.key} at={s.at} x={p.x} y={p.y} text={s.label} size={36} tone="cream" until={REGIONS_AT + 110} />;
-      })}
+      <Label at={DISTRICT_AT + 20} {...toPx(cam, JARABLUS.x, JARABLUS.y)} text="" size={Math.min(64, 30 + cam.s * 0.9)} main hide={[PEOPLE_AT - 4, DIVE_AT]} />
     </AbsoluteFill>
   );
 };
@@ -168,7 +155,7 @@ const Label: React.FC<{ at: number; x: number; y: number; text: string; size: nu
         position: "absolute",
         left: x - 300,
         width: 600,
-        top: y - (main ? size * 2.3 : size * 0.7),
+        top: y - (main ? (text ? size * 2.3 : size * 1.05) : size * 0.7),
         textAlign: "center",
         direction: "rtl",
         fontFamily: DISPLAY,

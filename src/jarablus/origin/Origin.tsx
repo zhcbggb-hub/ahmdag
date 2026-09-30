@@ -295,7 +295,6 @@ const Scene: React.FC = () => {
       {frame >= GROW_AT - 4 && frame < APP_AT + 30 && <Rings x={jarablus.x} y={jarablus.y} color={C.mint} start={GROW_AT - 4} every={12} count={5} total={6} maxRadius={1300} strokeWidth={4} />}
       <div style={{ position: "absolute", top: 230, left: 0, right: 0, textAlign: "center", direction: "rtl", fontFamily: DISPLAY, opacity: Math.min(1, title) }}>
         <div style={{ fontWeight: 900, fontSize: 64, color: "white", textShadow: "0 0 30px rgba(18,201,178,0.45)" }}>منطقة جرابلس</div>
-        <div style={{ fontWeight: 600, fontSize: 32, color: C.cream, opacity: 0.8 }}>ناحية جرابلس • ناحية الغندورة</div>
       </div>
       {phone > 0 && (
         <Phone cx={540} top={interpolate(phone, [0, 1], [900, 520])} scale={0.78} opacity={phone} turn={-6}>
