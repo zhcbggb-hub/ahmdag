@@ -25,6 +25,13 @@ A 29-second vertical (1080×1920) promo for the Souq Jarablus app, in Syrian Ara
 15 frames a beat): a hook of real listings on the beat builds to the drop, where the logo slams in; a seller posts an ad in the app's four steps, it flies onto a drawn map of Jarablus and its countryside
 whose villages light up on the music's drop, a buyer finds it and messages on WhatsApp, and it ends on the download button.
 
+### Calm app commercial
+
+`npx remotion render JarablusPremium out/souq-jarablus-premium.mp4` renders a 35-second commercial in six calm scenes,
+to "Motivating Mornings" (Mixkit): the hook "كل سوق جرابلس وريفها… صار بمكان واحد", the categories around the phone,
+posting an ad on the app's real screens, "بدون وسيط • بدون عمولة", the Jarablus street photo from the app's own banner,
+and the download call with jarablus.store/app. Text is revealed with a mask and stays at least two seconds.
+
 ### Old way versus the app
 
 `npx remotion render JarablusVersus out/souq-jarablus-versus.mp4` renders a 17-second split screen cut to "Arab Nights":

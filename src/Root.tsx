@@ -20,6 +20,7 @@ import { LogoBuild, LOGO_BUILD_DURATION } from "./jarablus/short/LogoBuild";
 import { SHORT_DURATION } from "./jarablus/short/timing";
 import { JarablusStory } from "./jarablus/story/JarablusStory";
 import { STORY_DURATION } from "./jarablus/story/timing";
+import { JarablusPremium, PREMIUM_DURATION } from "./jarablus/premium/Premium";
 import { JarablusVersus } from "./jarablus/versus/JarablusVersus";
 import { VERSUS_DURATION } from "./jarablus/versus/timing";
 import { FPS, HEIGHT, WIDTH } from "./jarablus/theme";
@@ -46,6 +47,9 @@ export const RemotionRoot: React.FC = () => {
         <Composition id="Features" component={FeaturesScene} durationInFrames={FEATURES_DURATION} {...vertical} />
         <Composition id="Outro" component={OutroScene} durationInFrames={OUTRO_DURATION} {...vertical} />
       </Folder>
+
+      {/* 35-second calm app commercial: npx remotion render JarablusPremium */}
+      <Composition id="JarablusPremium" component={JarablusPremium} durationInFrames={PREMIUM_DURATION} {...vertical} />
 
       {/* 17-second "old way versus the app" split screen: npx remotion render JarablusVersus */}
       <Composition id="JarablusVersus" component={JarablusVersus} durationInFrames={VERSUS_DURATION} defaultProps={{ music: true }} {...vertical} />

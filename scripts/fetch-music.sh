@@ -10,6 +10,7 @@ get https://assets.mixkit.co/music/474/474.mp3 public/music/what-about-action.mp
 get https://assets.mixkit.co/music/371/371.mp3 public/music/cat-walk.mp3
 get https://assets.mixkit.co/music/460/460.mp3 public/music/arab-nights.mp3
 get https://assets.mixkit.co/music/470/470.mp3 public/music/golden-storm.mp3
+get https://assets.mixkit.co/music/33/33.mp3 public/music/motivating-mornings.mp3
 
 sfx() { get "https://assets.mixkit.co/active_storage/sfx/$1/$1-preview.mp3" "public/sfx/$2.mp3"; }
 sfx 1491 pin-fall
