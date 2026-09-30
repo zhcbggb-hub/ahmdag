@@ -2,7 +2,7 @@ import "./index.css";
 import { AbuShamPromo } from "./abusham/AbuShamPromo";
 import { PROMO_DURATION as ABUSHAM_DURATION } from "./abusham/theme";
 import { CONTACT_STING_DURATION, ContactSting, LOGO_STING_DURATION, LogoSting } from "./abusham/Stings";
-import { Composition, Folder } from "remotion";
+import { Composition, Folder, Still } from "remotion";
 import { HelloWorld } from "./HelloWorld";
 import { Logo } from "./HelloWorld/Logo";
 import { JarablusPromo, PROMO_DURATION } from "./jarablus/JarablusPromo";
@@ -20,6 +20,7 @@ import { LogoBuild, LOGO_BUILD_DURATION } from "./jarablus/short/LogoBuild";
 import { SHORT_DURATION } from "./jarablus/short/timing";
 import { JarablusStory } from "./jarablus/story/JarablusStory";
 import { STORY_DURATION } from "./jarablus/story/timing";
+import { VillagesPoster } from "./jarablus/premium/Poster";
 import { JarablusPremium, PREMIUM_DURATION } from "./jarablus/premium/Premium";
 import { JarablusVersus } from "./jarablus/versus/JarablusVersus";
 import { VERSUS_DURATION } from "./jarablus/versus/timing";
@@ -50,6 +51,7 @@ export const RemotionRoot: React.FC = () => {
 
       {/* 35-second calm app commercial: npx remotion render JarablusPremium */}
       <Composition id="JarablusPremium" component={JarablusPremium} durationInFrames={PREMIUM_DURATION} {...vertical} />
+      <Still id="JarablusVillagesPoster" component={VillagesPoster} width={WIDTH} height={HEIGHT} />
 
       {/* 17-second "old way versus the app" split screen: npx remotion render JarablusVersus */}
       <Composition id="JarablusVersus" component={JarablusVersus} durationInFrames={VERSUS_DURATION} defaultProps={{ music: true }} {...vertical} />
