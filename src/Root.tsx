@@ -20,6 +20,7 @@ import { LogoBuild, LOGO_BUILD_DURATION } from "./jarablus/short/LogoBuild";
 import { SHORT_DURATION } from "./jarablus/short/timing";
 import { JarablusStory } from "./jarablus/story/JarablusStory";
 import { STORY_DURATION } from "./jarablus/story/timing";
+import { GROUP_DURATION, GroupStory } from "./jarablus/group/GroupStory";
 import { JarablusOrigin } from "./jarablus/origin/Origin";
 import { ORIGIN_DURATION } from "./jarablus/origin/timing";
 import { VillagesPoster } from "./jarablus/premium/Poster";
@@ -50,6 +51,9 @@ export const RemotionRoot: React.FC = () => {
         <Composition id="Features" component={FeaturesScene} durationInFrames={FEATURES_DURATION} {...vertical} />
         <Composition id="Outro" component={OutroScene} durationInFrames={OUTRO_DURATION} {...vertical} />
       </Folder>
+
+      {/* 21-second story: a post lost in a buy-and-sell group, then sold through the app. */}
+      <Composition id="JarablusGroupStory" component={GroupStory} durationInFrames={GROUP_DURATION} {...vertical} />
 
       {/* 39-second origin story on the real map of Jarablus District, told by the app's narration. */}
       <Composition id="JarablusOrigin" component={JarablusOrigin} durationInFrames={ORIGIN_DURATION} defaultProps={{ music: true }} {...vertical} />

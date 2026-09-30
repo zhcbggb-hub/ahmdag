@@ -14,3 +14,5 @@ public/sfx
 .cache
 # The origin story narration is the app owner's own recording and is kept out of the public repository.
 public/voiceover/origin
+# Photos of Jarablus sent by the app owner for the group-post video; kept out of the public repository.
+public/city
