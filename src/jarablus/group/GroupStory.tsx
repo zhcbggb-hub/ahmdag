@@ -1,4 +1,4 @@
-import { mdiAccountGroup, mdiBellRing, mdiCheckDecagram, mdiClockOutline, mdiCommentOutline, mdiDotsHorizontal, mdiEarth, mdiFlash, mdiImageOutline, mdiShareOutline, mdiThumbUpOutline, mdiWhatsapp } from "@mdi/js";
+import { mdiAccountGroup, mdiBellRing, mdiCar, mdiCellphone, mdiHomeCity, mdiLaptop, mdiSofa, mdiTshirtCrew, mdiCheckDecagram, mdiClockOutline, mdiCommentOutline, mdiDotsHorizontal, mdiEarth, mdiFlash, mdiImageOutline, mdiShareOutline, mdiThumbUpOutline, mdiWhatsapp } from "@mdi/js";
 import { AbsoluteFill, Img, interpolate, random, Sequence, staticFile, useCurrentFrame } from "remotion";
 import { Burst, Icon } from "../components";
 import { Phone, PHONE_H, PHONE_W, Shot } from "../premium/parts";
@@ -6,16 +6,17 @@ import { Tap } from "../story/parts";
 import { C, CLAMP, DISPLAY, EASE_IN_OUT, EASE_OUT, TEXT } from "../theme";
 import { Character } from "./Character";
 
-// A seller posts his motorcycle in a Facebook-style buy-and-sell group, the post sinks under dozens of others and
+// A seller posts his motorcycle (one example; the video shows the app is for everything) in a Facebook-style buy-and-sell group, the post sinks under dozens of others and
 // nobody replies; then he posts it on Souq Jarablus and buyers message him. The group is drawn generically, with no
 // real network's name or logo. Backgrounds are real photos of Jarablus (public/city, not committed).
 export const SHOOT = 0;
 export const POST = 90;
 export const SINK = 180;
 export const TURN = 330;
-export const SOLD = 390;
-export const END = 510;
-export const GROUP_DURATION = 630;
+export const ALL = 390;
+export const SOLD = 465;
+export const END = 585;
+export const GROUP_DURATION = 705;
 
 const ease = (frame: number, from: number, duration = 18, easing = EASE_OUT) => interpolate(frame, [from, from + duration], [0, 1], { ...CLAMP, easing });
 
@@ -81,7 +82,7 @@ const Shoot: React.FC = () => {
   return (
     <AbsoluteFill>
       <City src="city/street.jpg" tint="linear-gradient(180deg, rgba(20,12,4,0.35), rgba(20,12,4,0.55))" brightness={0.7} />
-      <Title text="بدك تبيع موتورك؟" at={0} />
+      <Title text="بدك تبيع شي؟" at={0} />
       <div style={{ position: "absolute", left: 150, top: 400, width: 780, height: 580, borderRadius: 36, overflow: "hidden", boxShadow: "0 40px 90px rgba(0,0,0,0.6), 0 0 0 6px rgba(255,255,255,0.85)", opacity: view, scale: interpolate(view, [0, 1], [0.9, 1]) }}>
         <MotoPhoto width={780} height={580} />
         {/* The camera's focus brackets and controls. */}
@@ -305,7 +306,63 @@ const Turn: React.FC = () => {
   );
 };
 
-// ---------------------------------------------------------------- 5. buyers message him
+// ---------------------------------------------------------------- 5. everything, not just motorcycles
+
+const CATEGORIES = [
+  { label: "سيارات", icon: mdiCar, x: 190, y: 520 },
+  { label: "عقارات", icon: mdiHomeCity, x: 890, y: 560 },
+  { label: "موبايلات", icon: mdiCellphone, x: 170, y: 800 },
+  { label: "أثاث", icon: mdiSofa, x: 900, y: 840 },
+  { label: "إلكترونيات", icon: mdiLaptop, x: 180, y: 1080 },
+  { label: "ألبسة", icon: mdiTshirtCrew, x: 890, y: 1120 },
+];
+const All: React.FC = () => {
+  const frame = useCurrentFrame();
+  return (
+    <AbsoluteFill>
+      <City src="city/street.jpg" tint="linear-gradient(180deg, rgba(2,27,23,0.6), rgba(5,68,59,0.7))" blur={4} brightness={0.65} />
+      <AbsoluteFill style={{ background: "white", opacity: interpolate(frame, [0, 10], [0.8, 0], CLAMP) }} />
+      <Title text="كل شي بدك تبيعو…" at={2} size={72} top={150} />
+      <Phone cx={540} top={420} scale={0.8} turn={-4}>
+        <Shot src="screen-home.jpg" />
+      </Phone>
+      {CATEGORIES.map((c, i) => {
+        const p = ease(frame, 14 + i * 7, 14);
+        return (
+          <div
+            key={c.label}
+            style={{
+              position: "absolute",
+              left: c.x - 125,
+              top: c.y + Math.sin(frame / 20 + i) * 8,
+              width: 250,
+              height: 104,
+              borderRadius: 28,
+              background: "rgba(255,255,255,0.12)",
+              border: "1.5px solid rgba(255,255,255,0.3)",
+              backdropFilter: "blur(14px)",
+              boxShadow: "0 20px 50px rgba(0,0,0,0.35)",
+              direction: "rtl",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 12,
+              opacity: p,
+              scale: interpolate(p, [0, 1], [0.6, 1]),
+            }}
+          >
+            <div style={{ width: 58, height: 58, borderRadius: 29, background: C.mint, display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <Icon path={c.icon} size={36} color={C.ink} />
+            </div>
+            <span style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: 34, color: "white" }}>{c.label}</span>
+          </div>
+        );
+      })}
+    </AbsoluteFill>
+  );
+};
+
+// ---------------------------------------------------------------- 6. buyers message him
 
 const CHATS = ["مرحبا، الموتور لسا موجود؟", "قديش آخر سعر؟", "تمام، جاي آخدو هلّق!"];
 const Sold: React.FC = () => {
@@ -340,7 +397,7 @@ const Sold: React.FC = () => {
   );
 };
 
-// ---------------------------------------------------------------- 6. the logo over Jarablus
+// ---------------------------------------------------------------- 7. the logo over Jarablus
 
 const LOGO_W = 760;
 const End: React.FC = () => {
@@ -360,7 +417,8 @@ const SCENES = [
   { name: "Shoot", from: SHOOT, to: POST, Scene: Shoot },
   { name: "Post", from: POST, to: SINK, Scene: Post },
   { name: "Sink", from: SINK, to: TURN, Scene: Sink },
-  { name: "Turn", from: TURN, to: SOLD, Scene: Turn },
+  { name: "Turn", from: TURN, to: ALL, Scene: Turn },
+  { name: "All", from: ALL, to: SOLD, Scene: All },
   { name: "Sold", from: SOLD, to: END, Scene: Sold },
   { name: "End", from: END, to: GROUP_DURATION, Scene: End },
 ];
