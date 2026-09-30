@@ -20,6 +20,8 @@ import { LogoBuild, LOGO_BUILD_DURATION } from "./jarablus/short/LogoBuild";
 import { SHORT_DURATION } from "./jarablus/short/timing";
 import { JarablusStory } from "./jarablus/story/JarablusStory";
 import { STORY_DURATION } from "./jarablus/story/timing";
+import { JarablusOrigin } from "./jarablus/origin/Origin";
+import { ORIGIN_DURATION } from "./jarablus/origin/timing";
 import { VillagesPoster } from "./jarablus/premium/Poster";
 import { JarablusPremium, PREMIUM_DURATION } from "./jarablus/premium/Premium";
 import { JarablusVersus } from "./jarablus/versus/JarablusVersus";
@@ -48,6 +50,10 @@ export const RemotionRoot: React.FC = () => {
         <Composition id="Features" component={FeaturesScene} durationInFrames={FEATURES_DURATION} {...vertical} />
         <Composition id="Outro" component={OutroScene} durationInFrames={OUTRO_DURATION} {...vertical} />
       </Folder>
+
+      {/* 39-second origin story on the real map of Jarablus District, told by the app's narration. */}
+      <Composition id="JarablusOrigin" component={JarablusOrigin} durationInFrames={ORIGIN_DURATION} defaultProps={{ music: true }} {...vertical} />
+      <Composition id="JarablusOriginNoMusic" component={JarablusOrigin} durationInFrames={ORIGIN_DURATION} defaultProps={{ music: false }} {...vertical} />
 
       {/* 35-second calm app commercial: npx remotion render JarablusPremium */}
       <Composition id="JarablusPremium" component={JarablusPremium} durationInFrames={PREMIUM_DURATION} {...vertical} />

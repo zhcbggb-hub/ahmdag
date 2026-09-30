@@ -9,3 +9,8 @@ out
 # Licensed music and sound effects are downloaded by scripts/fetch-music.sh, not committed.
 public/music
 public/sfx
+
+# Cached downloads for scripts/build-jarablus-map.py.
+.cache
+# The origin story narration is the app owner's own recording and is kept out of the public repository.
+public/voiceover/origin
