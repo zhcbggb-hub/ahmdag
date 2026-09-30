@@ -1,7 +1,7 @@
-import { mdiCar, mdiCellphone, mdiCheckCircle, mdiDownload, mdiHomeCity, mdiLaptop, mdiSofa } from "@mdi/js";
+import { mdiCar, mdiCellphone, mdiCheckCircle, mdiDownload, mdiHomeCity, mdiLaptop, mdiMapMarker, mdiSofa } from "@mdi/js";
 import { Audio } from "@remotion/media";
 import { AbsoluteFill, Img, interpolate, Sequence, staticFile, useCurrentFrame } from "remotion";
-import { Icon } from "../components";
+import { Icon, Rings } from "../components";
 import { Tap } from "../story/parts";
 import { C, CLAMP, DISPLAY, EASE_IN_OUT, TEXT } from "../theme";
 import { Backdrop, ease, glass, LightSweep, Line, Phone, PHONE_H, PHONE_W, Screens, Shot } from "./parts";
@@ -175,54 +175,45 @@ const Benefit: React.FC<{ text: string; at: number; top: number }> = ({ text, at
 
 // ---------------------------------------------------------------- 05 Jarablus
 
-// The street photo inside the app's own banner (a real photo of Jarablus), cropped away from the banner's text.
-const PHOTO = { x: 40, y: 475, w: 255, h: 170, W: 627 };
-const PhotoCrop: React.FC<{ width: number; zoom?: number }> = ({ width, zoom = 1 }) => {
-  const k = width / PHOTO.w;
-  return (
-    <div style={{ position: "relative", width, height: PHOTO.h * k, overflow: "hidden" }}>
-      <Img
-        src={staticFile("screen-home.jpg")}
-        style={{ position: "absolute", width: PHOTO.W * k, maxWidth: "none", left: -PHOTO.x * k, top: -PHOTO.y * k, scale: zoom, transformOrigin: `${((PHOTO.x + PHOTO.w / 2) / PHOTO.W) * 100}% ${((PHOTO.y + PHOTO.h / 2) / 1280) * 100}%` }}
-      />
-    </div>
-  );
-};
+// No photos here: a pin over the town, with its villages lighting up around it.
+const PIN = { x: 540, y: 800 };
+const PLACES = [
+  { name: "جرابلس", x: 290, y: 640 },
+  { name: "العمارنة", x: 790, y: 640 },
+  { name: "الغندورة", x: 290, y: 960 },
+  { name: "ريف جرابلس", x: 790, y: 960 },
+];
 
 const Local: React.FC = () => {
   const frame = useCurrentFrame();
-  const card = ease(frame, 4, 30);
-  const phone = ease(frame, 34, 34);
+  const pin = ease(frame, 30, 26);
+  const phone = ease(frame, 60, 34);
   const out = ease(frame, CTA - LOCAL - 12, 12, EASE_IN_OUT);
   return (
-    <AbsoluteFill style={{ opacity: ease(frame, 0, 10) }}>
-      {/* The same photo, blurred and graded, fills the background. */}
-      <AbsoluteFill style={{ overflow: "hidden" }}>
-        <div style={{ position: "absolute", left: -600, top: -100, scale: 1.1 + frame * 0.0006, filter: "blur(40px) saturate(1.2) brightness(0.55)" }}>
-          <PhotoCrop width={2300} />
+    <AbsoluteFill>
+      <Line text="من جرابلس…" at={6} top={220} size={96} color={C.paper} />
+      <Line text="لجرابلس وريفها" at={26} top={350} size={110} color={C.mint} glow="rgba(18,201,178,0.5)" />
+      <AbsoluteFill style={{ top: 60, opacity: pin }}>
+        <Rings x={PIN.x} y={PIN.y} color={C.mint} start={34} every={22} count={4} total={5} maxRadius={520} strokeWidth={3} />
+        <svg width="1080" height="1920" style={{ position: "absolute", inset: 0 }}>
+          {PLACES.map((p, i) => {
+            const k = ease(frame, 44 + i * 10, 22);
+            return <line key={p.name} x1={PIN.x} y1={PIN.y} x2={PIN.x + (p.x - PIN.x) * k} y2={PIN.y + (p.y - PIN.y) * k} stroke={C.mint} strokeWidth={3} strokeDasharray="10 10" opacity={0.6} />;
+          })}
+        </svg>
+        <div style={{ position: "absolute", left: PIN.x - 70, top: PIN.y - 128, translate: `0 ${(1 - pin) * -40}px`, filter: "drop-shadow(0 0 30px rgba(18,201,178,0.6))" }}>
+          <Icon path={mdiMapMarker} size={140} color={C.mint} />
         </div>
-        <AbsoluteFill style={{ background: `linear-gradient(180deg, rgba(2,27,23,0.85) 0%, rgba(5,68,59,0.45) 45%, rgba(2,27,23,0.9) 100%)` }} />
+        {PLACES.map((p, i) => {
+          const k = ease(frame, 56 + i * 10, 22);
+          return (
+            <div key={p.name} style={{ position: "absolute", left: p.x - 170, width: 340, top: p.y - 50, display: "flex", justifyContent: "center", opacity: k, translate: `0 ${(1 - k) * 18}px` }}>
+              <div style={{ ...glass(50), padding: "12px 34px 18px", whiteSpace: "nowrap", direction: "rtl", fontFamily: DISPLAY, fontWeight: 800, fontSize: 46, color: "white" }}>{p.name}</div>
+            </div>
+          );
+        })}
       </AbsoluteFill>
-      <Line text="من جرابلس…" at={10} top={220} size={96} color={C.paper} />
-      <Line text="لجرابلس وريفها" at={32} top={350} size={110} color={C.mint} glow="rgba(18,201,178,0.5)" />
-      <div
-        style={{
-          position: "absolute",
-          left: 90,
-          top: 560,
-          borderRadius: 40,
-          overflow: "hidden",
-          boxShadow: "0 50px 100px rgba(0,0,0,0.55), 0 0 0 2px rgba(255,255,255,0.18)",
-          opacity: card,
-          scale: interpolate(card, [0, 1], [1.06, 1]),
-          filter: `blur(${phone * 2}px) saturate(1.15) contrast(1.06)`,
-        }}
-      >
-        <PhotoCrop width={900} zoom={1 + frame * 0.0009} />
-        <AbsoluteFill style={{ background: "linear-gradient(180deg, transparent 50%, rgba(2,27,23,0.55) 100%)", mixBlendMode: "multiply" }} />
-        <LightSweep at={20} duration={40} strength={0.15} />
-      </div>
-      <Phone cx={320} top={interpolate(phone, [0, 1], [1200, 930])} scale={0.78} opacity={phone} turn={9}>
+      <Phone cx={540} top={interpolate(phone, [0, 1], [1400, 1130])} scale={0.6} opacity={phone} turn={-4}>
         <Shot src="screen-home.jpg" />
       </Phone>
       <AbsoluteFill style={{ background: C.paper, opacity: out }} />
@@ -303,6 +294,7 @@ const SFX = [
   { name: "impact-deep", at: DIRECT + 84 - 16, volume: 0.22 },
   { name: "impact-deep", at: DIRECT + 108 - 16, volume: 0.3 },
   { name: "whoosh-fast", at: LOCAL - 32, volume: 0.2 },
+  { name: "pin-fall", at: LOCAL + 30 + 20 - 9, volume: 0.25 },
   { name: "whoosh-fast", at: CTA - 32, volume: 0.22 },
   { name: "sparkle", at: CTA + 34 - 16, volume: 0.35 },
   { name: "pop", at: CTA + 80, volume: 0.2 },
