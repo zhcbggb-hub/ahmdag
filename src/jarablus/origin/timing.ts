@@ -4,25 +4,6 @@ import { EASE_IN_OUT } from "../theme";
 // read off the pauses between phrases.
 export const sec = (s: number) => Math.round(s * 30);
 
-export const CAPTIONS = [
-  { text: "من هنا تبدأ الحكاية…", from: 0, to: 1.75 },
-  { text: "من مدينة *جرابلس", from: 1.75, to: 3.4 },
-  { text: "فكرةٌ بسيطة…\nوُلدت من حاجةٍ حقيقية لأهل المنطقة", from: 3.4, to: 7.6 },
-  { text: "كيف نجعل البيع والشراء *أسهل؟", from: 7.6, to: 10.0 },
-  { text: "وكيف نُمكّن البائع\nمن الوصول إلى الناس", from: 10.0, to: 13.3 },
-  { text: "ويجد المشتري ما يبحث عنه…", from: 13.3, to: 15.45 },
-  { text: "من دون *وسيط", from: 15.45, to: 16.65 },
-  { text: "ومن دون *عمولة", from: 16.65, to: 18.15 },
-  { text: "ومن هنا… وُلد تطبيق\n*سوق *جرابلس *وريفها", from: 18.15, to: 21.55 },
-  { text: "خطوةٌ بدأت من *جرابلس…", from: 21.55, to: 23.4 },
-  { text: "واليوم، تكبر *الحكاية", from: 23.4, to: 25.55 },
-  { text: "لأن هدفنا ليس مجرد تطبيق…", from: 25.55, to: 28.05 },
-  { text: "بل إنشاء *سوقٍ *رقمي حقيقي", from: 28.05, to: 30.55 },
-  { text: "يخدم أهل كل منطقة…", from: 30.55, to: 32.75 },
-  { text: "من *أهلها، *ولأهلها", from: 32.75, to: 34.8 },
-  { text: "ومن *جرابلس…\nكانت البداية", from: 34.8, to: 37.6 },
-];
-
 // Story beats, in frames.
 export const DISTRICT_AT = sec(2.5); // "جرابلس": the district lights up
 export const VILLAGES_AT = sec(3.8);

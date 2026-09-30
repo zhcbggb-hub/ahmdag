@@ -1,4 +1,24 @@
-import { mdiAccount, mdiAccountTie, mdiClose, mdiMagnify, mdiPercent, mdiStorefront } from "@mdi/js";
+import {
+  mdiAccount,
+  mdiAccountCancel,
+  mdiAccountGroup,
+  mdiAccountTie,
+  mdiBookOpenPageVariant,
+  mdiBullhorn,
+  mdiCashRemove,
+  mdiCellphone,
+  mdiClose,
+  mdiFlag,
+  mdiHandHeart,
+  mdiHandshake,
+  mdiLightbulbOn,
+  mdiMagnify,
+  mdiMapMarker,
+  mdiMapMarkerMultiple,
+  mdiPercent,
+  mdiStorefront,
+  mdiTrendingUp,
+} from "@mdi/js";
 import { Audio } from "@remotion/media";
 import { AbsoluteFill, Img, interpolate, random, Sequence, staticFile, useCurrentFrame } from "remotion";
 import { Burst, Icon, Rings } from "../components";
@@ -9,7 +29,6 @@ import {
   APP_AT,
   BACK_AT,
   camera,
-  CAPTIONS,
   COMMISSION_AT,
   DISTRICT_AT,
   DIVE_AT,
@@ -172,49 +191,81 @@ const LogoStage: React.FC<{ from: number; to: number; top: number; width: number
   );
 };
 
-// ---------------------------------------------------------------- captions
+// ---------------------------------------------------------------- key phrases
 
-const Caption: React.FC<{ text: string; from: number; to: number; dark: boolean }> = ({ text, from, to, dark }) => {
-  const frame = useCurrentFrame();
-  const p = ease(frame, from, 10) * (1 - ease(frame, to - 5, 6, EASE_IN_OUT));
-  if (p === 0) return null;
-  return (
-    <div
-      style={{
-        position: "absolute",
-        top: 1420,
-        left: 50,
-        right: 50,
-        direction: "rtl",
-        textAlign: "center",
-        fontFamily: DISPLAY,
-        fontWeight: 800,
-        fontSize: 58,
-        lineHeight: 1.4,
-        color: dark ? C.deep : "white",
-        opacity: p,
-        translate: `0 ${(1 - p) * 16}px`,
-        textShadow: dark ? "none" : "0 4px 20px rgba(2,27,23,0.9), 0 0 4px rgba(2,27,23,0.8)",
-      }}
-    >
-      {text.split("\n").map((line, i) => (
-        <div key={i}>
-          {line.split(" ").map((w, j) => (
-            <span key={j} style={{ color: w.startsWith("*") ? (dark ? C.brand : C.mint) : undefined }}>
-              {w.replace(/^\*/, "")}{" "}
-            </span>
-          ))}
-        </div>
-      ))}
-    </div>
-  );
-};
+// Only the key words of each line are shown, each on a glass card with an icon. Times are in seconds.
+const KEYS = [
+  { text: "من هنا تبدأ *الحكاية", icon: mdiBookOpenPageVariant, from: 0, to: 1.75 },
+  { text: "*جرابلس", icon: mdiMapMarker, from: 1.75, to: 3.4 },
+  { text: "فكرةٌ *بسيطة", icon: mdiLightbulbOn, from: 3.4, to: 5.3 },
+  { text: "حاجةٌ *حقيقية لأهل المنطقة", icon: mdiAccountGroup, from: 5.3, to: 7.6 },
+  { text: "البيع والشراء *أسهل", icon: mdiHandshake, from: 7.6, to: 10.0 },
+  { text: "الوصول إلى *الناس", icon: mdiBullhorn, from: 10.0, to: 13.3 },
+  { text: "يجد ما *يبحث *عنه", icon: mdiMagnify, from: 13.3, to: 15.45 },
+  { text: "من دون *وسيط", icon: mdiAccountCancel, from: 15.45, to: 16.65 },
+  { text: "من دون *عمولة", icon: mdiCashRemove, from: 16.65, to: 18.15 },
+  { text: "بدأت من *جرابلس", icon: mdiFlag, from: 21.55, to: 23.4 },
+  { text: "تكبر *الحكاية", icon: mdiTrendingUp, from: 23.4, to: 25.55 },
+  { text: "ليس مجرد *تطبيق", icon: mdiCellphone, from: 25.55, to: 28.05 },
+  { text: "سوقٌ *رقمي حقيقي", icon: mdiStorefront, from: 28.05, to: 30.55 },
+  { text: "يخدم *كل *منطقة", icon: mdiMapMarkerMultiple, from: 30.55, to: 32.75 },
+  { text: "من *أهلها، *ولأهلها", icon: mdiHandHeart, from: 32.75, to: 34.8 },
+  { text: "ومن *جرابلس… كانت *البداية", icon: mdiFlag, from: 34.8, to: 38.8 },
+];
 
 const LIGHT = [
   [LOGO_AT, BACK_AT + 6],
   [FINAL_LOGO_AT, ORIGIN_DURATION],
 ];
 const isLight = (frame: number) => LIGHT.some(([a, b]) => frame >= a && frame < b);
+
+// A glass card rising in: the icon pops, the words are revealed right to left, and a thin bar fills while the line
+// is spoken, like a progress indicator.
+const KeyCard: React.FC<{ text: string; icon: string; from: number; to: number }> = ({ text, icon, from, to }) => {
+  const frame = useCurrentFrame();
+  const light = isLight(frame);
+  const inP = ease(frame, from, 14);
+  const outP = to >= ORIGIN_DURATION ? 0 : ease(frame, to - 6, 8, EASE_IN_OUT);
+  if (inP === 0 || outP === 1) return null;
+  const pop = interpolate(frame, [from + 2, from + 10, from + 16], [0, 1.15, 1], CLAMP);
+  const reveal = ease(frame, from + 4, 16);
+  const progress = interpolate(frame, [from, Math.min(to, ORIGIN_DURATION) - 4], [0, 1], CLAMP);
+  const ink = light ? C.deep : "white";
+  const accent = light ? C.brand : C.mint;
+  return (
+    <div style={{ position: "absolute", top: 1430, left: 0, right: 0, display: "flex", justifyContent: "center", opacity: inP * (1 - outP), translate: `0 ${(1 - inP) * 40 - outP * 30}px` }}>
+      <div
+        style={{
+          position: "relative",
+          overflow: "hidden",
+          direction: "rtl",
+          display: "flex",
+          alignItems: "center",
+          gap: 22,
+          padding: "20px 40px 28px 44px",
+          borderRadius: 36,
+          background: light ? "rgba(255,255,255,0.75)" : "rgba(2,27,23,0.55)",
+          border: `1.5px solid ${light ? "rgba(0,125,107,0.25)" : "rgba(18,201,178,0.35)"}`,
+          backdropFilter: "blur(16px)",
+          boxShadow: light ? "0 20px 50px rgba(2,27,23,0.15)" : "0 24px 60px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.12)",
+        }}
+      >
+        <div style={{ width: 84, height: 84, borderRadius: 26, flexShrink: 0, background: `linear-gradient(145deg, ${C.mint} 0%, ${C.brand} 100%)`, display: "flex", justifyContent: "center", alignItems: "center", scale: pop, rotate: `${(1 - Math.min(1, pop)) * -30}deg`, boxShadow: "0 10px 24px rgba(18,201,178,0.35)" }}>
+          <Icon path={icon} size={52} color="white" />
+        </div>
+        <div style={{ fontFamily: DISPLAY, fontWeight: 900, fontSize: 58, color: ink, whiteSpace: "nowrap", clipPath: `inset(-20% 0 -20% ${(1 - reveal) * 100}%)` }}>
+          {text.split(" ").map((w, j) => (
+            <span key={j} style={{ color: w.startsWith("*") ? accent : undefined }}>
+              {w.replace(/^\*/, "")}{" "}
+            </span>
+          ))}
+        </div>
+        <div style={{ position: "absolute", right: 0, bottom: 0, height: 5, width: `${progress * 100}%`, background: `linear-gradient(270deg, ${C.mint}, ${C.brand})` }} />
+      </div>
+    </div>
+  );
+};
+
 
 // ---------------------------------------------------------------- the video
 
@@ -253,8 +304,8 @@ const Scene: React.FC = () => {
       )}
       <LogoStage from={LOGO_AT} to={BACK_AT + 6} top={560} width={900} />
       <LogoStage from={FINAL_LOGO_AT} to={ORIGIN_DURATION + 20} top={640} width={900} />
-      {CAPTIONS.map((c) => (
-        <Caption key={c.from} text={c.text} from={sec(c.from)} to={sec(c.to)} dark={isLight(sec(c.from) + 6)} />
+      {KEYS.map((k) => (
+        <KeyCard key={k.from} text={k.text} icon={k.icon} from={sec(k.from)} to={sec(k.to)} />
       ))}
       <div style={{ position: "absolute", top: 1850, left: 0, right: 0, textAlign: "center", fontFamily: DISPLAY, fontSize: 20, color: C.paper, opacity: credit, direction: "rtl" }}>
         بيانات الخريطة: © مساهمو OpenStreetMap • OCHA

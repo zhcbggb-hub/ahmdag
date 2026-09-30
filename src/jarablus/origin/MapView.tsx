@@ -3,7 +3,7 @@ import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { Icon } from "../components";
 import { C, CLAMP, DISPLAY, EASE_IN_OUT, EASE_OUT } from "../theme";
 import data from "./map-data.json";
-import { camera, DISTRICT_AT, GROW_AT, NETWORK_AT, PEOPLE_ALL_AT, REGIONS_AT, sec, toPx, VILLAGES_AT } from "./timing";
+import { camera, DISTRICT_AT, DIVE_AT, GROW_AT, NETWORK_AT, PEOPLE_ALL_AT, PEOPLE_AT, REGIONS_AT, sec, toPx, VILLAGES_AT } from "./timing";
 
 export const RIVER = "#5BC8F5";
 export const VILLAGES = data.villages;
@@ -34,17 +34,14 @@ export const LINKS = (() => {
   return out;
 })();
 
-// Labels for the best-known places, and the two sub-districts.
+// Only the places named in the brief are labelled, plus the two sub-districts.
 const LABELS = [
   { name: "الغندورة", at: GROW_AT + 8, dy: -1 },
   { name: "العمارنة", at: GROW_AT + 16, dy: 1 },
-  { name: "يوسف بك", at: GROW_AT + 24, dy: -1 },
-  { name: "حلونجي", at: GROW_AT + 32, dy: 1 },
-  { name: "الجامل", at: GROW_AT + 40, dy: 1 },
 ];
 const SUBDISTRICTS = [
   { key: "Jarablus" as const, label: "ناحية جرابلس", x: -6, y: 13, at: REGIONS_AT },
-  { key: "Ghandorah" as const, label: "ناحية الغندورة", x: -24, y: 9, at: REGIONS_AT + 24 },
+  { key: "Ghandorah" as const, label: "ناحية الغندورة", x: -27, y: 22, at: REGIONS_AT + 24 },
 ];
 
 // The real map of Jarablus District, drawn through a moving camera. `dim` darkens it under overlays.
@@ -54,7 +51,7 @@ export const MapView: React.FC<{ dim?: number }> = ({ dim = 0 }) => {
   const px = (p: number) => p / cam.s; // a width in pixels, in map units
   const vb = `${cam.cx - 540 / cam.s} ${cam.cy - 960 / cam.s} ${1080 / cam.s} ${1920 / cam.s}`;
 
-  const syriaDraw = interpolate(frame, [0, 40], [0, 1], { ...CLAMP, easing: EASE_IN_OUT });
+  const syriaDraw = interpolate(frame, [-15, 35], [0, 1], { ...CLAMP, easing: EASE_IN_OUT });
   const districtDraw = interpolate(frame, [DISTRICT_AT - 10, DISTRICT_AT + 40], [0, 1], { ...CLAMP, easing: EASE_IN_OUT });
   const detail = fade(frame, DISTRICT_AT, 40);
   const riverDraw = interpolate(frame, [DISTRICT_AT + 20, DISTRICT_AT + 80], [0, 1], { ...CLAMP, easing: EASE_IN_OUT });
@@ -145,8 +142,8 @@ export const MapView: React.FC<{ dim?: number }> = ({ dim = 0 }) => {
       </svg>
 
       {/* Names, drawn as HTML so the Arabic stays crisp at any zoom. */}
-      <Label at={DISTRICT_AT + 20} {...toPx(cam, JARABLUS.x, JARABLUS.y)} text="جرابلس" size={Math.min(64, 30 + cam.s * 0.9)} main />
-      <RiverLabel />
+      {/* Hidden while the buyer marker sits on the town. */}
+      <Label at={DISTRICT_AT + 20} {...toPx(cam, JARABLUS.x, JARABLUS.y)} text="جرابلس" size={Math.min(64, 30 + cam.s * 0.9)} main hide={[PEOPLE_AT - 4, DIVE_AT]} />
       {LABELS.map((l) => {
         const v = VILLAGES.find((x) => x.name === l.name)!;
         const p = toPx(cam, v.x, v.y);
@@ -160,9 +157,10 @@ export const MapView: React.FC<{ dim?: number }> = ({ dim = 0 }) => {
   );
 };
 
-const Label: React.FC<{ at: number; x: number; y: number; text: string; size: number; main?: boolean; tone?: "cream"; until?: number }> = ({ at, x, y, text, size, main, tone, until }) => {
+const Label: React.FC<{ at: number; x: number; y: number; text: string; size: number; main?: boolean; tone?: "cream"; until?: number; hide?: [number, number] }> = ({ at, x, y, text, size, main, tone, until, hide }) => {
   const frame = useCurrentFrame();
-  const p = fade(frame, at, 16) * (until === undefined ? 1 : 1 - fade(frame, until, 16));
+  const hidden = hide ? fade(frame, hide[0], 8) * (1 - fade(frame, hide[1], 12)) : 0;
+  const p = fade(frame, at, 16) * (until === undefined ? 1 : 1 - fade(frame, until, 16)) * (1 - hidden);
   if (p === 0) return null;
   return (
     <div
@@ -189,20 +187,6 @@ const Label: React.FC<{ at: number; x: number; y: number; text: string; size: nu
         </div>
       )}
       {text}
-    </div>
-  );
-};
-
-// "نهر الفرات", beside the river south of Jarablus while the district is on screen.
-const RiverLabel: React.FC = () => {
-  const frame = useCurrentFrame();
-  const cam = camera(frame);
-  const p = fade(frame, DISTRICT_AT + 60, 20) * (1 - fade(frame, sec(18), 10)) + fade(frame, sec(25.3), 20) * (1 - fade(frame, sec(34.8), 15));
-  if (p <= 0) return null;
-  const at = toPx(cam, 5.5, 26);
-  return (
-    <div style={{ position: "absolute", left: at.x - 40, top: at.y, direction: "rtl", fontFamily: DISPLAY, fontWeight: 700, fontSize: 30, color: RIVER, opacity: p, rotate: "72deg", transformOrigin: "0 0", whiteSpace: "nowrap", textShadow: "0 0 12px rgba(2,27,23,0.95)" }}>
-      نهر الفرات
     </div>
   );
 };
