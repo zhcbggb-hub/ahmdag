@@ -25,6 +25,15 @@ A 29-second vertical (1080×1920) promo for the Souq Jarablus app, in Syrian Ara
 15 frames a beat): a hook of real listings on the beat builds to the drop, where the logo slams in; a seller posts an ad in the app's four steps, it flies onto a drawn map of Jarablus and its countryside
 whose villages light up on the music's drop, a buyer finds it and messages on WhatsApp, and it ends on the download button.
 
+### Old way versus the app
+
+`npx remotion render JarablusVersus out/souq-jarablus-versus.mp4` renders a 17-second split screen cut to "Arab Nights":
+the hook asks "لسا عم تبيع غراضك هيك؟ ولّا هيك؟", then four comparisons on the beat (a paper flyer against posting in
+three taps, walking the market against reaching every village, the middleman's cut against 0%, days of waiting
+against WhatsApp messages and "انباع!"). On the drop the app pushes the old way off the screen and the logo slams in;
+it ends on the download steps and a question for the comments. `JarablusVersusNoMusic` keeps only the sound effects,
+so a trending TikTok sound can be added in the app.
+
 ### Logo and app short
 
 `npx remotion render JarablusShort out/jarablus-short.mp4` renders a 16-second short cut to the music: the logo builds
